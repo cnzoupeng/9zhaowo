@@ -1,0 +1,305 @@
+﻿<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Hello Amaze UI</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="assets/i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="assets/i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+
+    <link rel="stylesheet" href="assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+</head>
+<body style="background-color: #F0EFF4;">
+    <div class="am-container" style="padding: 0px;">
+
+    <!-- main_page start -->
+    <div id="main_page" style="">
+        <header data-am-widget="header" class="am-header am-header-default">
+            <div class="am-header-left am-header-nav">
+                <a href="#left-link" class="">
+                    <i class="am-header-icon am-icon-home"></i>
+                </a>
+            </div>
+            <h1 class="am-header-title">就找我</h1>
+        </header>
+
+        <!-- user list -->
+        <div id="user_page_list">
+            {{#listUser}}
+            <div style="    background-color: #fff;font-family: 微软雅黑;    border: 1px solid #dedede;    -moz-border-radius: 5px;     -webkit-border-radius: 5px;     padding: 5px 5px;margin:5px">
+                <div class="am-g am-intro-bd" style="background-color: white;">
+                    <div class="am-intro-left am-u-sm-3">
+                        <a href="#" onclick="jump_to('user_page')">
+                            <img class="am-radius am-img-thumbnail"   src="{{avatar}}" alt="小娜" width="120px" height="120px"/>
+                        </a>
+                    </div>
+                    <div class="am-intro-right am-u-sm-9">
+                        <p>姓名：{{name}}</p>
+                        <p>地区：{{area}}</p>
+                    </div>
+                </div>
+
+                <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 5px;  border-top: 1px solid #F1F1F1">
+                    <div class="am-u-sm-3" style="padding-left:10px">行业</div>
+                    <div class="am-u-sm-9" style="padding-left:1px">{{hangye}}</div>
+                </div>
+                <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 5px;  border-top: 1px solid #F1F1F1">
+                    <div class="am-u-sm-3" style="padding-left:10px">标签</div>
+                    <div class="am-u-sm-9" style="padding-left:1px">{{tag}}</div>
+                </div>
+
+                <div class="am-g" style="background-color: white;    margin-top: 2px;    padding-top: 5px;   border-top: 1px solid #F1F1F1">
+                    <div class="am-u-sm-3" style="padding-left:10px">简介</div>
+                    <div class="am-u-sm-9" style="padding-left:1px">{{intro}}</div>
+                </div>
+            </div>
+            {{/listUser}}
+        </div>
+
+        <!-- navbar start -->
+        <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default" id=""
+             style=" background-color: white;    border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;">
+            <div class="am-u-sm-8" style="padding-left: 0px;padding-right: 0px;">
+                <div class="am-g">
+                    <div class="am-u-lg-6" style="padding-left: 5px;">
+                        <div class="am-input-group">
+                            <input type="text" class="am-form-field am-round">
+                            <span class="am-input-group-btn" style="line-height:39px">
+                                <button class="am-btn am-btn-default am-round" type="button" onclick="search()"><span  class="am-icon-search"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
+                <a href="#" onclick="jump_to('adv_search')" class="am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
+            </div>
+            <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
+                <a href="#" onclick="jump_to('user_config')" class="am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
+            </div>
+        </div>
+    </div>
+    <!-- main_end end -->
+
+    <!-- user_page start -->
+    <div id="user_page" style="display:none">
+        <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
+            <div class="am-intro-hd">
+                <h2 class="am-intro-title">邹鹏</h2>
+                <a class="am-intro-more am-intro-more-top " href="#more">网络安全专家</a>
+            </div>
+
+            <div class="am-g am-intro-bd" style="background-color: white;">
+                <div class="am-intro-left am-u-sm-5"><img class="am-radius am-img-thumbnail" src="avatar/head.jpg" alt="小娜" width="120px" height="120px"/></div>
+                <div class="am-intro-right am-u-sm-7">
+                    <p>姓名：邹鹏</p>
+                    <p>性别：男</p>
+                    <p>地区：广东/深圳</p>
+                </div>
+            </div>
+
+            <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+                <div class="am-u-sm-3" style="padding-left:20px">行业</div>
+                <div class="am-u-sm-9" style="padding-left:20px">互联网</div>
+            </div>
+            <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+                <div class="am-u-sm-3" style="padding-left:20px">标签</div>
+                <div class="am-u-sm-9" style="padding-left:20px">IT 安全 编程</div>
+            </div>
+
+            <div class="am-g" style="background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+                <div class="am-u-sm-3" style="padding-left:20px">简介</div>
+                <div class="am-u-sm-9" style="padding-left:20px">
+                    【全栈工程师】网络、安全、Linux、高可靠、高并发、分布式，6年聚焦在网络、安全、后台开发、高性能、高可靠、分布式领域；作为团队技术骨干，负责核心系统的设计、开发；质量保证、流程把控；能够独立承担一个产品的整个流程；
+                </div>
+            </div>
+
+            <div class="am-g" style="background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+                <img src="img/lv_msg.jpg" width="100%"/><img>
+            </div>
+        </div>
+
+        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
+            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        </div>
+    </div>
+    <!-- user_page end -->
+
+    <!-- user_msg start -->
+    <div id="user_msg" style="display:none">
+        <img src="img/msg.jpg" width="100%"/><img>
+
+        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
+            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        </div>
+    </div>
+    <!-- user_msg end -->
+
+
+    <!-- user_info start -->
+    <div id="user_info" style="display:none">
+        <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">微信号</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.wx}}</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">姓名</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.name}}</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">手机号</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.mobile}} <i>(他人不可见)</i></div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">地区</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.area}}</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">标签</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.tag}}</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">简介</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.intro}}</div>
+        </div>
+
+        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
+            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        </div>
+    </div>
+    <!-- user_info end -->
+
+    <!-- user start -->
+    <div id="user_config" style="display:none">
+        <div class="am-g" style="    background-color: white;    margin-top: 20px;    padding-top: 20px;    padding-bottom: 20px;">
+            <div class="am-u-sm-3">
+                <img class="am-radius am-img-thumbnail" alt="140*140" src="{{user.avatar}}" width="140" height="140"/>
+            </div>
+            <div class="am-u-sm-9">
+                <div class="am-u-sm-12">{{user.name}}</div>
+                <div class="am-u-sm-12">微信：{{user.wx}}</div>
+            </div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px;    padding-bottom: 10px;">
+            <a href="#" onclick="jump_to('user_info')">
+                <div style="padding-left:20px">资料</div>
+            </a>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <a href="#" onclick="jump_to('user_msg')">
+                <div style="padding-left:20px">私信</div>
+            </a>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <a href="#" onclick="jump_to('user_page')">
+                <div style="padding-left:20px">个人主页</div>
+            </a>
+        </div>
+
+        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
+            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        </div>
+    </div>
+    <!-- user end -->
+
+    <!-- advance search -->
+    <div id="adv_search" style="display:none">
+        <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px; padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">关键字</div>
+            <div class="am-u-sm-9" style="padding-left:20px">web</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 5px;    padding-top: 10px; padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">区域</div>
+            <div class="am-u-sm-9" style="padding-left:20px">广东/深圳</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 5px;    padding-top: 10px; padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">行业</div>
+            <div class="am-u-sm-9" style="padding-left:20px">IT</div>
+        </div>
+
+        <div style="z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;padding-top: 5px;height:49px">
+            <button type="button" class="am-btn am-btn-primary" style="width:100%" onclick="jump_to('main_page')">搜索
+            </button>
+        </div>
+    </div>
+    <!-- advance search -->
+
+</div>
+
+<!--[if (gte IE 9)|!(IE)]><!-->
+<script src="assets/js/jquery.min.js"></script>
+<!--<![endif]-->
+<!--[if lte IE 8 ]>
+<script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+<script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+<![endif]-->
+<script src="assets/js/amazeui.min.js"></script>
+</body>
+</html>
+
+
+<script type="text/javascript">
+
+    var lastDiv = {};
+    var showDiv = [];
+
+    function jump_to(id) {
+        var divOld = showDiv.pop();
+        var divNew = $("#" + id);
+        divOld.hide();
+        divNew.show();
+        showDiv.push(divOld);
+        showDiv.push(divNew);
+    }
+
+    function jump_back() {
+        var divNow = showDiv.pop();
+        var divLast = showDiv.pop();
+        divNow.hide();
+        divLast.show();
+        showDiv.push(divLast);
+    }
+
+    function search() {
+        location.href = "/demo";
+    }
+
+    $(document).ready(function () {
+        showDiv.push($("#main_page"));
+    })
+</script>
