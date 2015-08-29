@@ -24,7 +24,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/page', routes);
 app.use('/specialist', specialist);
 
 
@@ -36,6 +35,8 @@ app.use(function(req, res, next) {
 });
 
 // error handlers
+
+app.set('env', 'development');
 
 // development error handler
 // will print stacktrace
@@ -59,5 +60,20 @@ app.use(function(err, req, res, next) {
   });
 });
 
+
+//==============================
+global.logDbg = function(line, msg){
+  if(1){
+		console.log("Debug " + __filename + " " + line  + ": " + msg);
+	}
+}
+
+global.logMsg = function(line, msg){
+  console.log("Info " + __filename + " " + line  + ": " + msg);
+}
+
+global.logErr = function(line, msg){
+  console.log("Error " + __filename + " " + line  + ": " + msg);
+}
 
 module.exports = app;
