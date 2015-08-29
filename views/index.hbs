@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>Hello Amaze UI</title>
+    <title>就找我</title>
 
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
@@ -49,7 +49,7 @@
 
         <!-- user list -->
         <div id="user_page_list">
-            {{#listUser}}
+            {{firstPage}}
             <div style="    background-color: #fff;font-family: 微软雅黑;    border: 1px solid #dedede;    -moz-border-radius: 5px;     -webkit-border-radius: 5px;     padding: 5px 5px;margin:5px">
                 <div class="am-g am-intro-bd" style="background-color: white;">
                     <div class="am-intro-left am-u-sm-3">
@@ -65,7 +65,7 @@
 
                 <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 5px;  border-top: 1px solid #F1F1F1">
                     <div class="am-u-sm-3" style="padding-left:10px">行业</div>
-                    <div class="am-u-sm-9" style="padding-left:1px">{{hangye}}</div>
+                    <div class="am-u-sm-9" style="padding-left:1px">{{industry}}</div>
                 </div>
                 <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 5px;  border-top: 1px solid #F1F1F1">
                     <div class="am-u-sm-3" style="padding-left:10px">标签</div>
@@ -74,10 +74,10 @@
 
                 <div class="am-g" style="background-color: white;    margin-top: 2px;    padding-top: 5px;   border-top: 1px solid #F1F1F1">
                     <div class="am-u-sm-3" style="padding-left:10px">简介</div>
-                    <div class="am-u-sm-9" style="padding-left:1px">{{intro}}</div>
+                    <div class="am-u-sm-9" style="padding-left:1px">{{introduce}}</div>
                 </div>
             </div>
-            {{/listUser}}
+            {{/firstPage}}
         </div>
 
         <!-- navbar start -->
@@ -105,10 +105,6 @@
     </div>
     <!-- main_end end -->
 
-    
-
-    
-
     <!-- user_msg start -->
     <div id="user_msg" style="display:none">
         <img src="img/msg.jpg" width="100%"/><img>
@@ -122,11 +118,6 @@
 
     <!-- user_info start -->
     <div id="user_info" style="display:none">
-        <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px;    padding-bottom: 10px;">
-            <div class="am-u-sm-3" style="padding-left:20px">微信号</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.wx}}</div>
-        </div>
-
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">姓名</div>
             <div class="am-u-sm-9" style="padding-left:20px">{{user.name}}</div>
@@ -139,7 +130,7 @@
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">地区</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.area}}</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.city}}</div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
@@ -149,7 +140,7 @@
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">简介</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.intro}}</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.introduce}}</div>
         </div>
 
         <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
@@ -166,7 +157,7 @@
             </div>
             <div class="am-u-sm-9">
                 <div class="am-u-sm-12">{{user.name}}</div>
-                <div class="am-u-sm-12">微信：{{user.wx}}</div>
+                <div class="am-u-sm-12">微信：xxx</div>
             </div>
         </div>
 
