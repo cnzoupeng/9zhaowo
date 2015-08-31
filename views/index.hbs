@@ -32,13 +32,52 @@
 
     <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/amazeui.min.css">
     <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/app.css">
+    
+    <style id="bgtyle"  type="text/css">
+        .userBack {
+            background-color: #fff;
+            font-family: 微软雅黑;
+            border: 1px solid #dedede;
+            -moz-border-radius: 5px;
+            -webkit-border-radius: 5px;
+            padding: 5px 5px;
+            margin:5px
+        }
+        
+        .bottomNav {
+            background-color: white;
+            z-index:999;
+            position:fixed;
+            bottom:0;
+            left:0;
+            width:100%;
+            _position:absolute;
+            border-top: 1px solid #CCCCCC;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            height:49px
+        }
+        
+        .infoLine {
+            background-color: white;
+            margin-top: 2px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .avatar_link {
+        }
+
+        .back_link {
+        }
+    </style>
 </head>
 <body style="background-color: #F0EFF4;">
     <div class="am-container" style="padding: 0px;">
 
     <!-- main_page start -->
     <div id="main_page" style="">
-        <header data-am-widget="header" class="am-header am-header-default">
+        <header name="header" data-am-widget="header" class="am-header am-header-default">
             <div class="am-header-left am-header-nav">
                 <a href="#left-link" class="">
                     <i class="am-header-icon am-icon-home"></i>
@@ -48,37 +87,59 @@
         </header>
 
         <!-- user list -->
-        <div id="user_page_list">
+        <div id="user_list">
             {{#firstPage}}
-            <div style="    background-color: #fff;font-family: 微软雅黑;    border: 1px solid #dedede;    -moz-border-radius: 5px;     -webkit-border-radius: 5px;     padding: 5px 5px;margin:5px">
-                <div class="am-g am-intro-bd" style="background-color: white;">
-                    <div class="am-intro-left am-u-sm-3">
-                        <a href="#" onclick="jump_to('user_page')">
-                            <img class="am-radius am-img-thumbnail"   src="{{avatar}}" alt="小娜" width="120px" height="120px"/>
+            <div id='{{uid}}' class="userBack">
+                <div class='am-g am-intro-bd' style='background-color: white;'>
+                    <div class='am-intro-left am-u-sm-3'>
+                        <a href='/specialist/{{uid}}' class='avatar_link'>
+                            <img class='am-radius am-img-thumbnail'   src='{{avatar}}' alt='小娜' width='120px' height='120px'/>
                         </a>
                     </div>
-                    <div class="am-intro-right am-u-sm-9">
-                        <p>姓名：{{name}}</p>
-                        <p>地区：{{city}}</p>
+                    <div class='am-intro-right am-u-sm-9'>
+                       <p style='margin: 0px;'>
+                           <strong style='margin-right: 10px;'>{{name}}</strong>
+                           <strong>{{specialist}}</strong>
+                        </p>
+                       <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
                     </div>
-                </div>
-
-                <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 5px;  border-top: 1px solid #F1F1F1">
-                    <div class="am-u-sm-3" style="padding-left:10px">行业</div>
-                    <div class="am-u-sm-9" style="padding-left:1px">{{industry}}</div>
-                </div>
-                <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 5px;  border-top: 1px solid #F1F1F1">
-                    <div class="am-u-sm-3" style="padding-left:10px">标签</div>
-                    <div class="am-u-sm-9" style="padding-left:1px">{{tag}}</div>
-                </div>
-
-                <div class="am-g" style="background-color: white;    margin-top: 2px;    padding-top: 5px;   border-top: 1px solid #F1F1F1">
-                    <div class="am-u-sm-3" style="padding-left:10px">简介</div>
-                    <div class="am-u-sm-9" style="padding-left:1px">{{introduce}}</div>
+                    <div class='am-intro-right am-u-sm-9'>{{introduce}}</div>
                 </div>
             </div>
             {{/firstPage}}
         </div>
+        
+       <div id="user_list_template" style="display:none">
+            {#users}
+            <div id='{uid}' class="userBack">
+                <div class='am-g am-intro-bd' style='background-color: white;'>
+                    <div class='am-intro-left am-u-sm-3'>
+                        <a href='/specialist/{uid}' class='avatar_link'>
+                            <img class='am-radius am-img-thumbnail' img_url_xxx alt='小娜' width='120px' height='120px'/>
+                        </a>
+                    </div>
+                    <div class='am-intro-right am-u-sm-9'>
+                       <p style='margin: 0px;'>
+                           <strong style='margin-right: 10px;'>{name}</strong>
+                           <strong>{specialist}</strong>
+                        </p>
+                       <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
+                    </div>
+                    <div class='am-intro-right am-u-sm-9'>{introduce}</div>
+                </div>
+            </div>
+            {/users}
+        </div>
+        
+        <!-- page select start -->
+        <ul data-am-widget="pagination" class="am-pagination am-pagination-default">
+            <li class="am-pagination-prev">
+                <button id="page_prev" type="button" class="am-btn am-btn-secondary" onclick="getPrevPage()">上一页</button>
+            </li>
+            <li class="am-pagination-next ">
+                <button id="page_next" type="button" class="am-btn am-btn-secondary" onclick="getNextPage()">下一页</button>
+            </li>
+        </ul>
 
         <!-- navbar start -->
         <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default" id=""
@@ -96,10 +157,10 @@
                 </div>
             </div>
             <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="#" onclick="jump_to('adv_search')" class="am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
+                <a href="" onclick="jump_to('adv_search')" class="am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
             </div>
             <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="#" onclick="jump_to('user_config')" class="am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
+                <a href="" onclick="jump_to('user_config')" class="am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
             </div>
         </div>
     </div>
@@ -109,12 +170,11 @@
     <div id="user_msg" style="display:none">
         <img src="http://static.9zhaowo.com/img/msg.jpg" width="100%"/><img>
 
-        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
-            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        <div class="bottomNav">
+            <a href="" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div>
     <!-- user_msg end -->
-
 
     <!-- user_info start -->
     <div id="user_info" style="display:none">
@@ -143,7 +203,7 @@
             <div class="am-u-sm-9" style="padding-left:20px">{{user.introduce}}</div>
         </div>
 
-        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
+        <div class="bottomNav">
             <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div>
@@ -168,19 +228,19 @@
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
-            <a href="#" onclick="jump_to('user_msg')">
+            <a onclick="jump_to('user_msg')">
                 <div style="padding-left:20px">私信</div>
             </a>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
-            <a href="/specialist/{{user.id}}">
+            <a href="/specialist/{{user.uid}}">
                 <div style="padding-left:20px">个人主页</div>
             </a>
         </div>
 
-        <div style="background-color: white; z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;height:49px">
-            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        <div class="bottomNav">
+            <a onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div>
     <!-- user end -->
@@ -209,9 +269,52 @@
     </div>
     <!-- advance search -->
 
+     <!-- user_page template -->
+     <div id="user_page" style="display:none">
+        <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
+            <div class="am-intro-hd">
+                <h2 class="am-intro-title">{name}</h2>
+                <a class="am-intro-more am-intro-more-top " href="#more">{special}</a>
+            </div>
+
+            <div class="am-g am-intro-bd" style="background-color: white;">
+                <div class="am-intro-left am-u-sm-5"><img class="am-radius am-img-thumbnail" img_url_xxx alt="小娜" width="120px" height="120px"/></div>
+                <div class="am-intro-right am-u-sm-7">
+                    <p>{name}</p>
+                    <p>地区: {city}</p>
+                </div>
+            </div>
+
+            <div class="am-g infoLine">
+                <div class="am-u-sm-3" style="padding-left:20px">行业</div>
+                <div class="am-u-sm-9" style="padding-left:20px">{industry}</div>
+            </div>
+            <div class="am-g infoLine">
+                <div class="am-u-sm-3" style="padding-left:20px">标签</div>
+                <div class="am-u-sm-9" style="padding-left:20px">{tag}</div>
+            </div>
+
+            <div class="am-g infoLine">
+                <div class="am-u-sm-3" style="padding-left:20px">简介</div>
+                <div class="am-u-sm-9" style="padding-left:20px">{introduce}</div>
+            </div>
+
+            <div class="am-g infoLine">
+                <img src="http://static.9zhaowo.com/img/lv_msg.jpg" width="100%"/><img>
+            </div>
+        </div>
+
+        <div class="bottomNav">
+            <a href="/" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        </div>
+    </div> 
+     <!-- user_page end -->
+
 </div>
 
+
 <!--[if (gte IE 9)|!(IE)]><!-->
+
 <script src="http://static.9zhaowo.com/assets/js/jquery.min.js"></script>
 <!--<![endif]-->
 <!--[if lte IE 8 ]>
@@ -220,37 +323,220 @@
 <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
 <![endif]-->
 <script src="http://static.9zhaowo.com/assets/js/amazeui.min.js"></script>
+<script src="http://static.9zhaowo.com/assets/js/handlebars.min.js"></script>
 </body>
 </html>
 
-
 <script type="text/javascript">
-
+    var pageUsers = [];
     var lastDiv = {};
     var showDiv = [];
+    var pageId = 0;
+    var newPageId = 0;
+    var maxPageId = {{pageCount}};
+    var pageHash = 'header';
+    
+    var template_userlist;
+    var template_userpage;    
 
-    function jump_to(id) {
+    function getUserById(id){
+        for(var i in pageUsers.users){
+            if(pageUsers.users[i].uid == id){
+                return pageUsers.users[i];
+            }
+        }
+        return null;
+    }
+    
+    function getUidFromUrl(url){
+        var arr = url.split('/');
+        var id = arr.pop();
+        return id;
+    }
+
+    function updateUserList(jsData){
+        if(!jsData || jsData.err != 0 || !jsData.users){
+           return alert(jsData.msg);
+        }
+        
+        pageUsers = jsData;
+        if(jsData.users.length == 0){
+            return;
+        }
+        
+        var htmlAll = "";
+        var pageList = $("#user_list");
+        htmlAll = template_userlist(jsData);
+
+        pageList.empty();        
+        pageList.append(htmlAll);
+        pageId = newPageId;
+
+        //滚动到头部
+        $(window).scrollTop(0);
+
+        //更新跳转监控
+        $(".avatar_link").click(jump_user_page);
+        
+        //update page button state
+        if(pageId != 0){
+            $('#page_prev').removeAttr("disabled");
+        }
+        else{
+            $("#page_prev").attr("disabled", "disabled");
+        }
+        if(pageId == (maxPageId - 1)){
+            $("#page_next").attr("disabled", "disabled");
+        }
+        else{
+            $('#page_next').removeAttr("disabled");
+        }
+    }
+    
+    function getPrevPage(){
+        if(pageId == 0){
+            return;
+        }
+
+        pageHash = 'header';
+        newPageId = pageId - 1;
+        $.ajax({
+            url: '/page/' + newPageId,
+            success: updateUserList,
+            dataType: 'json'
+        });
+    }
+    
+    function getNextPage(){
+        newPageId = pageId + 1;
+        if(newPageId > maxPageId){
+            alert("最后一页了");
+            return;
+        }
+
+        pageHash = 'header';
+        $.ajax({
+            url: '/page/' + newPageId,
+            success: updateUserList,
+            dataType: 'json'
+        });
+    }
+
+    function jump_to(id, uid) {
         var divOld = showDiv.pop();
         var divNew = $("#" + id);
         divOld.hide();
         divNew.show();
         showDiv.push(divOld);
         showDiv.push(divNew);
+        if(uid){
+            location.hash = "#" + uid;
+        }
     }
 
-    function jump_back() {
+    function jump_back(hash) {       
         var divNow = showDiv.pop();
         var divLast = showDiv.pop();
         divNow.hide();
         divLast.show();
         showDiv.push(divLast);
+
+        if(hash){
+            location.hash = "#" + hash;
+        }
     }
 
     function search() {
-        location.href = "/demo";
+        location.href = "/";
+    }
+    
+    function saveFirstPageUsers(jsData){
+        if(!jsData || jsData.err != 0 || !jsData.users){
+           return alert(jsData.msg);
+        }
+        pageUsers = jsData;
+    }
+
+    function jump_user_page(evt){
+        evt.preventDefault();
+
+        var uri = $(this).attr('href');
+        var uid = getUidFromUrl(uri);
+        var user = getUserById(uid);
+        if(!user){
+            return;
+        }
+
+        //无刷新跳转，更新URL
+        if(history.pushState){
+            window.history.pushState({url: '/', uid: uid}, null, uri);
+        }
+        else{
+            window.location.href = uri;
+            return;
+        }
+
+        var pageUser = $("#user_page");
+        var html = template_userpage(user);
+        pageUser.empty();
+        pageUser.append(html);
+
+        //无刷新回退，更新URL
+        $(".back_link").click(function(evt) {
+            if(history.pushState){
+                window.history.pushState({url: '/', uid: uid}, null, '/');
+            }
+            else{
+                window.location.href = '/';
+                return;
+            }
+            jump_back(uid);
+            return false;
+        });
+
+        pageHash = uid;
+        jump_to('user_page');
+        return false;
+    }
+
+    function onPrevOrBack(evt){
+        if(!evt.state || evt.state.uri == '/'){
+            jump_to('main_page', pageHash);
+        }
+        else{
+            jump_to('user_page');
+        }
+    }
+
+    function init_template(){
+        var newTag = '{' + '{';
+        var mewTag2 = '}' + '}';
+        var newTag3 = 'src=\"{' + '{avatar}' + '}\"';
+        var source = $("#user_list_template").html();
+        source = source.replace(/{/g, newTag);
+        source = source.replace(/}/g, mewTag2);
+        source = source.replace(/img_url_xxx/, newTag3);
+        template_userlist = Handlebars.compile(source);
+
+        source = $("#user_page").html();
+        source = source.replace(/{/g, newTag);
+        source = source.replace(/}/g, mewTag2);
+        source = source.replace(/img_url_xxx/, newTag3);
+        template_userpage = Handlebars.compile(source);
     }
 
     $(document).ready(function () {
+        $.ajax({
+            url: '/page/0',
+            success: saveFirstPageUsers,
+            dataType: 'json'
+        });
+
         showDiv.push($("#main_page"));
-    })
+        $("#page_prev").attr("disabled", "disabled");
+        $(".avatar_link").click(jump_user_page);
+        window.addEventListener("popstate", onPrevOrBack, false) ;
+
+        init_template();
+    });
 </script>

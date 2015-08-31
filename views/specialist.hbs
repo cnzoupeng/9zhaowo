@@ -6,7 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <title>{{name}}&nbsp;&nbsp;{{specialist}}</title>
+    <title >{{name}}&nbsp;&nbsp;{{specialist}}</title>
 
     <!-- Set render engine for 360 browser -->
     <meta name="renderer" content="webkit">
@@ -90,6 +90,30 @@
 
 <script type="text/javascript">
     function jump_back(){
-        window.history.back();
+        history.pushState(null, null, url);
+        $("#tt").text("邹大爷")
+        //window.history.back();
+        //alert(navigator.userAgent);
+        //CloseWebPage();
     }
+    
+    function CloseWebPage() {  
+        if (navigator.userAgent.indexOf("MSIE") > 0) {  
+            if (navigator.userAgent.indexOf("MSIE 6.0") > 0) {  
+                window.opener = null; window.close();  
+            }  
+            else {  
+                window.open('', '_top'); window.top.close();  
+            }  
+        }
+        else if (navigator.userAgent.indexOf("Firefox") > 0) {  
+            window.location.href = 'about:blank ';  
+            //window.history.go(-2);  
+        }  
+        else {  
+            window.opener = null;   
+            window.open('', '_self', '');  
+            window.close();  
+        }  
+    }  
 </script>

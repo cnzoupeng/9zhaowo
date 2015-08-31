@@ -18,7 +18,7 @@ function getUserInfo(id, call){
 			logErr(1001, errc);
 			return call(JSON.stringify({err:1, msg:errc}));
 		}
-		var sql = "SELECT wx_openid,name,wx_city,wx_country,wx_headimgurl,industry,mobile,tag,specialist,introduce FROM users where wx_openid='" + id + "'";
+		var sql = "SELECT uid,name,wx_city,wx_country,wx_headimgurl,industry,mobile,tag,specialist,introduce FROM users where uid='" + id + "'";
 		logDbg(1002, sql);
 		conn.query(sql, function(errx, rows, fields){
 			conn.release();
@@ -27,12 +27,12 @@ function getUserInfo(id, call){
 				return call(JSON.stringify({err:1, msg:errx}));
 			}
 			
-			if(!rows){
+			if(!rows || rows.length < 1){
 				logErr(1004, 'wrong user ' + id);
 				return call(JSON.stringify({err:2, msg:'no such user'}));
 			}
 			var user = {};
-			user.id = rows[0].wx_openid;
+			user.uid = rows[0].uid;
 			user.name = rows[0].name;
 			user.city = rows[0].wx_city;
 			user.country = rows[0].wx_country;
@@ -55,11 +55,12 @@ function getPageUsers(pageId, call){
 			return call(JSON.stringify({err:1, msg:errc}));
 		}
 		
-		var sql = "SELECT wx_openid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM users order by reg_time desc limit " + pageId + "," + pageUserCount;
+		var userStart = pageId * pageUserCount;
+		var sql = "SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM users order by reg_time desc limit " + userStart + "," + pageUserCount;
 		logDbg(1006, sql);
 		conn.query(sql, function(errx, rows, fields){
 			conn.release();
-			if(!rows){
+			if(!rows || rows.length == 0){
 				logErr(1007, 'db error empty');
 				return call(JSON.stringify({err:2, msg:'no users found'}));
 			}
@@ -67,7 +68,7 @@ function getPageUsers(pageId, call){
 			var result = {count: userCount, users: []}
 			for(var i in rows){
 				var one = {};
-				one.id = rows[i].wx_openid;
+				one.uid = rows[i].uid;
 				one.name = rows[i].name;
 				one.city = rows[i].wx_city;
 				one.tag = rows[i].tag;
@@ -91,11 +92,12 @@ function getPageMsg(id, pageId, call){
 			return call(JSON.stringify({err:3, msg:errc}));
 		}
 		
-		var sql = "SELECT * FROM msg where uid =" + id + " order by time desc limit " + pageId + "," + pageMsgCount;
+		var msgStartId = pageId * pageMsgCount;
+		var sql = "SELECT * FROM msg where uid =" + id + " order by time desc limit " + msgStartId + "," + pageMsgCount;
 		logDbg(1009, sql);
 		conn.query(sql, function(errx, rows, fields){
 			conn.release();
-			if(!rows){
+			if(!rows || rows.length == 0){
 				return call(0, []);
 			}
 			
@@ -164,6 +166,10 @@ function _updateUserCount(){
 _updateUserCount();
 
 module.exports = {};
+
+module.exports.pageUserCount = pageUserCount;
+module.exports.pageMsgCount = pageMsgCount;
+
 module.exports.getUserInfo = getUserInfo;
 module.exports.getPageUsers = getPageUsers;
 module.exports.getPageMsg = getPageMsg;

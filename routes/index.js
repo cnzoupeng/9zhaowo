@@ -2,6 +2,7 @@
 var router = express.Router();
 var db = require('./db');
 
+var MAX_INTRO_LEN = 60;
 
 router.get('/', function(req, res, next) {
 	var mainPage = {};
@@ -31,8 +32,7 @@ router.get('/', function(req, res, next) {
 	res.render('index', mainPage);
 	*/
 
-
-	db.getUserInfo('cnzoupeng', function(err, userinfo){
+	db.getUserInfo('952070', function(err, userinfo){
 		if(err){
 			logErr(1001, err);
 			return res.render('error', err);
@@ -53,6 +53,19 @@ router.get('/', function(req, res, next) {
 					return res.render('error', err);
 				}
 				mainPage.userCount = result.count;
+				mainPage.pageCount = result.count / db.pageUserCount;
+				mainPage.pageCount = parseInt(mainPage.pageCount);
+				if(result.count % db.pageUserCount != 0){
+					mainPage.pageCount++;
+				}
+				
+				for(var i in result.users){
+					if(result.users[i].introduce.length > MAX_INTRO_LEN){
+						result.users[i].introduce = result.users[i].introduce.substr(0, MAX_INTRO_LEN);
+						result.users[i].introduce += "...";
+					}
+				}
+				
 				mainPage.firstPage = result.users;
 				res.render('index', mainPage);
 			});
@@ -60,8 +73,49 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/page/:id', function(req, res, next) {
+	res.setHeader("Content-Type", "application/json");
+	var mainPage = {};
+	var pageId = req.params.id;
+	if(pageId === undefined){
+		logErr(1004, "wrong page id recved");
+		return res.end(JSON.stringify({err: 3, msg: "wrong id"}));
+	}
+	pageId = parseInt(pageId);
+	if(isNaN(pageId) || pageId < 0){
+		logErr(1005, "wrong page id recved");
+		return res.end(JSON.stringify({err: 3, msg: "wrong id"}));
+	}
+	mainPage.pageId = pageId;
+	mainPage.err = 0;
+	
+	db.getPageUsers(pageId, function(errc, result){
+		if(errc){
+			logErr(1006, errc);
+			return res.end(JSON.stringify({err: 3, msg: errc}));
+		}
+		
+		mainPage.pageCount = result.count / db.pageUserCount;
+		mainPage.pageCount = parseInt(mainPage.pageCount);
+		if(result.count % db.pageUserCount != 0){
+			mainPage.pageCount++;
+		}
+		
+		for(var i in result.users){
+			if(result.users[i].introduce.length > MAX_INTRO_LEN){
+				result.users[i].introduce = result.users[i].introduce.substr(0, MAX_INTRO_LEN);
+				result.users[i].introduce += "...";
+			}
+		}
+		
+		mainPage.users = result.users;
+		
+		res.end(JSON.stringify(mainPage));
+	});
+});
 
 router.get('/updateMsg', function(req, res, next) {
+	res.setHeader("Content-Type", "application/json");
 	if(!req.query.id || !req.query.time){
 		return res.end(JSON.stringify({err: 1, msg: 'miss query'}));
 	}

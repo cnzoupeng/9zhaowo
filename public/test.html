@@ -1,0 +1,158 @@
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title id="tt">test</title>
+
+    <!-- Set render engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- No Baidu Siteapp-->
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+
+    <link rel="icon" type="image/png" href="http://static.9zhaowo.com/assets/i/favicon.png">
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="http://static.9zhaowo.com/assets/i/app-icon72x72@2x.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Amaze UI"/>
+    <link rel="apple-touch-icon-precomposed" href="http://static.9zhaowo.com/assets/i/app-icon72x72@2x.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="http://static.9zhaowo.com/assets/i/app-icon72x72@2x.png">
+    <meta name="msapplication-TileColor" content="#0e90d2">
+
+    <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/app.css">
+</head>
+<body style="background-color: #F0EFF4;">
+    <div class="am-container" style="padding: 0px;">
+     
+	    <!-- main_page start -->
+    <div id="main_page" style="">
+        <header data-am-widget="header" class="am-header am-header-default">
+            <div class="am-header-left am-header-nav">
+                <a href="#left-link" class="">
+                    <i class="am-header-icon am-icon-home"></i>
+                </a>
+            </div>
+            <h1 class="am-header-title">就找我</h1>
+        </header>
+        
+             <!-- user_page start -->
+     <div id="user_page" style="display:block">
+        <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
+            <div class="am-intro-hd">
+                <h2 class="am-intro-title">{name}</h2>
+                <a class="am-intro-more am-intro-more-top " href="#more">{special}</a>
+            </div>
+
+            <div class="am-g am-intro-bd" style="background-color: white;">
+                <div class="am-intro-left am-u-sm-5"><img class="am-radius am-img-thumbnail" src="{avatar}" alt="小娜" width="120px" height="120px"/></div>
+                <div class="am-intro-right am-u-sm-7">
+                    <p>{name}</p>
+                    <p>地区: {city}</p>
+                </div>
+            </div>
+
+            <div class="am-g infoLine">
+                <div class="am-u-sm-3" style="padding-left:20px">行业</div>
+                <div class="am-u-sm-9" style="padding-left:20px">{industry}</div>
+            </div>
+            <div class="am-g infoLine">
+                <div class="am-u-sm-3" style="padding-left:20px">标签</div>
+                <div class="am-u-sm-9" style="padding-left:20px">{tag}</div>
+            </div>
+
+            <div class="am-g infoLine">
+                <div class="am-u-sm-3" style="padding-left:20px">简介</div>
+                <div class="am-u-sm-9" style="padding-left:20px">{introduce}</div>
+            </div>
+
+            <div class="am-g infoLine">
+                <img src="http://static.9zhaowo.com/img/lv_msg.jpg" width="100%"/><img>
+            </div>
+        </div>
+
+        <div class="bottomNav">
+            <a href="" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+        </div>
+    </div> 
+     <!-- user_page end -->
+
+
+        <!-- navbar start -->
+        <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default" id=""
+             style=" background-color: white;    border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;">
+            <div class="am-u-sm-8" style="padding-left: 0px;padding-right: 0px;">
+                <div class="am-g">
+                    <div class="am-u-lg-6" style="padding-left: 5px;">
+                        <div class="am-input-group">
+                            <input type="text" class="am-form-field am-round">
+                            <span class="am-input-group-btn" style="line-height:39px">
+                                <button class="am-btn am-btn-default am-round" type="button" onclick="search()"><span  class="am-icon-search"></span></button>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
+                <a href="#" onclick="jump_to('adv_search')" class="am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
+            </div>
+            <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
+                <button onclick="opendialog()"}">My Modal</button>
+            </div>
+        </div>
+    </div>
+    <!-- main_end end -->
+ 
+    </div>
+    <script src="http://static.9zhaowo.com/assets/js/jquery.min.js"></script>
+    <!--<![endif]-->
+    <!--[if lte IE 8 ]>
+    <script src="http://libs.baidu.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="http://cdn.staticfile.org/modernizr/2.8.3/modernizr.js"></script>
+    <script src="assets/js/amazeui.ie8polyfill.min.js"></script>
+    <![endif]-->
+    <script src="http://static.9zhaowo.com/assets/js/amazeui.min.js"></script>
+    <script src="http://static.9zhaowo.com/assets/js/handlebars.min.js"></script>
+</body>
+
+<script type="text/javascript">
+    var tmpl;
+    
+    var user = {
+        name: 'xx',
+        special: 'special',
+        city: 'city',
+        industry: 'industry',
+        tag: 'tag tag tag',
+        introduce: 'introduce introduce introduce'
+    }
+    
+     
+	$(document).ready(function () {
+        var source = $("#user_page").html();
+        source = source.replace(/{/g, '{{');
+        source = source.replace(/}/g, '}}');
+        tmpl = Handlebars.compile(source);
+        var htmlNew = tmpl(user);
+        $("#user_page").empty();
+        $("#user_page").append(htmlNew);
+        
+        setInterval(function(){
+            user.name = Date.now();
+            var htmlNew = tmpl(user);
+            $("#user_page").empty();
+            $("#user_page").append(htmlNew);
+        }, 1000)
+    })
+</script>
