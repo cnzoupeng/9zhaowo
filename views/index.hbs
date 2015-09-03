@@ -18,7 +18,7 @@
 
     <!-- Add to homescreen for Chrome on Android -->
     <meta name="mobile-web-app-capable" content="yes">
-    <link rel="icon" sizes="192x192" href="http://static.9zhaowo.com/assets/i/app-icon72x72@2x.png">
+    <!--<link rel="icon" sizes="192x192" href="http://static.9zhaowo.com/assets/i/app-icon72x72@2x.png">-->
 
     <!-- Add to homescreen for Safari on iOS -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -65,7 +65,7 @@
             padding-bottom: 10px;
         }
 
-        .avatar_link {
+        .front_link {
         }
 
         .back_link {
@@ -73,10 +73,10 @@
     </style>
 </head>
 <body style="background-color: #F0EFF4;">
-    <div class="am-container" style="padding: 0px;">
+    <div id="container" class="am-container" style="padding: 0px;">
 
-    <!-- main_page start -->
-    <div id="main_page" style="">
+    <!-- page_main start -->
+    <div id="page_main" style="">
         <header name="header" data-am-widget="header" class="am-header am-header-default">
             <div class="am-header-left am-header-nav">
                 <a href="#left-link" class="">
@@ -92,7 +92,7 @@
             <div id='{{uid}}' class="userBack">
                 <div class='am-g am-intro-bd' style='background-color: white;'>
                     <div class='am-intro-left am-u-sm-3'>
-                        <a href='/specialist/{{uid}}' class='avatar_link'>
+                        <a href='/specialist/{{uid}}' class='front_link'>
                             <img class='am-radius am-img-thumbnail'   src='{{avatar}}' alt='小娜' width='120px' height='120px'/>
                         </a>
                     </div>
@@ -114,7 +114,7 @@
             <div id='{uid}' class="userBack">
                 <div class='am-g am-intro-bd' style='background-color: white;'>
                     <div class='am-intro-left am-u-sm-3'>
-                        <a href='/specialist/{uid}' class='avatar_link'>
+                        <a href='/specialist/{uid}' class='front_link'>
                             <img class='am-radius am-img-thumbnail' img_url_xxx alt='小娜' width='120px' height='120px'/>
                         </a>
                     </div>
@@ -132,12 +132,12 @@
         </div>
         
         <!-- page select start -->
-        <ul data-am-widget="pagination" class="am-pagination am-pagination-default">
+        <ul data-am-widget="pagination" class="front_link am-pagination am-pagination-default">
             <li class="am-pagination-prev">
-                <button id="page_prev" type="button" class="am-btn am-btn-secondary" onclick="getPrevPage()">上一页</button>
+                <a id="page_prev" href="#" class="front_link am-btn am-btn-link">上一页</a>
             </li>
             <li class="am-pagination-next ">
-                <button id="page_next" type="button" class="am-btn am-btn-secondary" onclick="getNextPage()">下一页</button>
+                <a id="page_next" href="/page/1"  class="front_link am-btn am-btn-link" ">下一页</a>
             </li>
         </ul>
 
@@ -157,27 +157,27 @@
                 </div>
             </div>
             <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="" onclick="jump_to('adv_search')" class="am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
+                <a href="/search" class="front_link am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
             </div>
             <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="" onclick="jump_to('user_config')" class="am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
+                <a href="/personal" class="front_link am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
             </div>
         </div>
     </div>
-    <!-- main_end end -->
+    <!-- page_main end -->
 
-    <!-- user_msg start -->
-    <div id="user_msg" style="display:none">
+    <!-- page_msg start -->
+    <div id="page_msg" style="display:none">
         <img src="http://static.9zhaowo.com/img/msg.jpg" width="100%"/><img>
 
         <div class="bottomNav">
-            <a href="" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+            <a href="/page_user" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div>
-    <!-- user_msg end -->
+    <!-- page_msg end -->
 
-    <!-- user_info start -->
-    <div id="user_info" style="display:none">
+    <!-- page_edit start -->
+    <div id="page_edit" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">姓名</div>
             <div class="am-u-sm-9" style="padding-left:20px">{{user.name}}</div>
@@ -204,49 +204,49 @@
         </div>
 
         <div class="bottomNav">
-            <a href="#" onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+            <a href="/page_user" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div>
-    <!-- user_info end -->
+    <!-- page_edit end -->
 
-    <!-- user start -->
-    <div id="user_config" style="display:none">
+    <!-- page_personal start -->
+    <div id="page_personal" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 20px;    padding-top: 20px;    padding-bottom: 20px;">
             <div class="am-u-sm-3">
                 <img class="am-radius am-img-thumbnail" alt="140*140" src="{{user.avatar}}" width="140" height="140"/>
             </div>
             <div class="am-u-sm-9">
                 <div class="am-u-sm-12">{{user.name}}</div>
-                <div class="am-u-sm-12">微信：xxx</div>
+                <div class="am-u-sm-12">{{user.specialist}}</div>
             </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px;    padding-bottom: 10px;">
-            <a href="#" onclick="jump_to('user_info')">
+            <a href="/edit" class="front_link">
                 <div style="padding-left:20px">资料</div>
             </a>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
-            <a onclick="jump_to('user_msg')">
+            <a href="/msg" class="front_link">
                 <div style="padding-left:20px">私信</div>
             </a>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
-            <a href="/specialist/{{user.uid}}">
+            <a href="/specialist/{{user.uid}}" class="front_link">
                 <div style="padding-left:20px">个人主页</div>
             </a>
         </div>
 
         <div class="bottomNav">
-            <a onclick="jump_back()"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
+            <a href="/" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div>
-    <!-- user end -->
+    <!-- page_personal end -->
 
-    <!-- advance search -->
-    <div id="adv_search" style="display:none">
+    <!-- page_search start-->
+    <div id="page_search" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px; padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">关键字</div>
             <div class="am-u-sm-9" style="padding-left:20px">web</div>
@@ -263,14 +263,14 @@
         </div>
 
         <div style="z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;padding-top: 5px;height:49px">
-            <button type="button" class="am-btn am-btn-primary" style="width:100%" onclick="jump_to('main_page')">搜索
-            </button>
+            <a href="/" class="back_link am-btn am-btn-primary">搜索</a>
+            <!--<button type="button" class="am-btn am-btn-primary" style="width:100%" onclick="jump_to('page_main')">搜索</button>-->
         </div>
     </div>
-    <!-- advance search -->
+    <!-- page_search end -->
 
-     <!-- user_page template -->
-     <div id="user_page" style="display:none">
+     <!-- page_specialist template -->
+     <div id="page_specialist" style="display:none">
         <div data-am-widget="intro" class="am-intro am-cf am-intro-default">
             <div class="am-intro-hd">
                 <h2 class="am-intro-title">{name}</h2>
@@ -308,10 +308,9 @@
             <a href="/" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
     </div> 
-     <!-- user_page end -->
+     <!-- page_specialist end -->
 
 </div>
-
 
 <!--[if (gte IE 9)|!(IE)]><!-->
 
@@ -329,17 +328,37 @@
 
 <script type="text/javascript">
     var pageUsers = [];
-    var lastDiv = {};
-    var showDiv = [];
-    var pageId = 0;
-    var newPageId = 0;
-    var maxPageId = {{pageCount}};
-    var pageHash = 'header';
+    var showDiv = {};
+
+    var showUsrID = '';
+    var thisUser = {{{self}}};
     
     var template_userlist;
-    var template_userpage;    
+    var template_specialist;
+
+    var pageIdMax = {{pageCount}};
+    var pageCur = 0;
+
+    var pathCur = '/';
+    var pathDev = {
+        '/': 'page_main',
+        '/specialist': 'page_specialist',
+        '/search': 'page_search',
+        '/personal': 'page_personal',
+        '/msg': 'page_msg',
+        '/edit': 'page_edit',
+        '/page': 'page_main'
+    }
+
+    function dbg(msg){
+        console.log(msg);
+    }
 
     function getUserById(id){
+        if(id == thisUser.uid){
+            return thisUser;
+        }
+        
         for(var i in pageUsers.users){
             if(pageUsers.users[i].uid == id){
                 return pageUsers.users[i];
@@ -347,11 +366,58 @@
         }
         return null;
     }
-    
-    function getUidFromUrl(url){
-        var arr = url.split('/');
-        var id = arr.pop();
-        return id;
+
+    function getPageIdFromPath(path){
+        if(!path || path == '/'){
+            return 0;
+        }
+        var arr = path.split('?');
+        var arr2 = arr[0].split('/');
+        return arr2.pop();
+    }
+
+    function getDevidByPath(path){
+        if(path.length > 15 && path.substr(0, 12) == '/specialist/'){
+            return pathDev['/specialist'];
+        }
+        if(path.length > 6 && path.substr(0, 6) == '/page/'){
+            return pathDev['/page'];
+        }
+        return pathDev[path];
+    }
+
+    function getUidFromPath(path){
+        var arr = path.split('?');
+        var arr2 = arr[0].split('/');
+        return arr2.pop();
+    }
+
+    function updatePageButton(path){
+        var pageId = parseInt(getPageIdFromPath(path));
+        var prevId = pageId - 1;
+        var nextId = pageId + 1;
+
+        if(pageId != 0){
+            $('#page_prev').removeAttr("disabled");
+            if(prevId == 0){
+                $("#page_prev").attr("href", "/");
+            }
+            else{
+                $("#page_prev").attr("href", "/page/" + prevId);
+            }
+        }
+        else{
+            $("#page_prev").attr("disabled", "disabled");
+            $('#page_prev').removeAttr("href");
+        }
+        if(pageId == (pageIdMax - 1)){
+            $("#page_next").attr("disabled", "disabled");
+            $('#page_next').removeAttr("href");
+        }
+        else{
+            $('#page_next').removeAttr("disabled");
+            $("#page_next").attr("href", "/page/" + nextId);
+        }
     }
 
     function updateUserList(jsData){
@@ -361,151 +427,52 @@
         
         pageUsers = jsData;
         if(jsData.users.length == 0){
+            dbg('Fatal error, no page data get');
             return;
         }
-        
-        var htmlAll = "";
+
         var pageList = $("#user_list");
-        htmlAll = template_userlist(jsData);
+        var htmlAll = template_userlist(jsData);
 
         pageList.empty();        
         pageList.append(htmlAll);
-        pageId = newPageId;
+
+        showDiv.hide();
+        showDiv = $("#page_main");
+        showDiv.show();
+        history.pushState({did: 'page_main', path: pathCur}, null, pathCur);
 
         //滚动到头部
         $(window).scrollTop(0);
 
-        //更新跳转监控
-        $(".avatar_link").click(jump_user_page);
-        
-        //update page button state
-        if(pageId != 0){
-            $('#page_prev').removeAttr("disabled");
-        }
-        else{
-            $("#page_prev").attr("disabled", "disabled");
-        }
-        if(pageId == (maxPageId - 1)){
-            $("#page_next").attr("disabled", "disabled");
-        }
-        else{
-            $('#page_next').removeAttr("disabled");
-        }
-    }
-    
-    function getPrevPage(){
-        if(pageId == 0){
-            return;
-        }
+        //更新翻页按钮状态
+        updatePageButton(pathCur);
 
-        pageHash = 'header';
-        newPageId = pageId - 1;
-        $.ajax({
-            url: '/page/' + newPageId,
-            success: updateUserList,
-            dataType: 'json'
-        });
-    }
-    
-    function getNextPage(){
-        newPageId = pageId + 1;
-        if(newPageId > maxPageId){
-            alert("最后一页了");
-            return;
-        }
-
-        pageHash = 'header';
-        $.ajax({
-            url: '/page/' + newPageId,
-            success: updateUserList,
-            dataType: 'json'
-        });
+        pageCur = getPageIdFromPath(pathCur);
     }
 
-    function jump_to(id, uid) {
-        var divOld = showDiv.pop();
-        var divNew = $("#" + id);
-        divOld.hide();
-        divNew.show();
-        showDiv.push(divOld);
-        showDiv.push(divNew);
-        if(uid){
-            location.hash = "#" + uid;
-        }
-    }
-
-    function jump_back(hash) {       
-        var divNow = showDiv.pop();
-        var divLast = showDiv.pop();
-        divNow.hide();
-        divLast.show();
-        showDiv.push(divLast);
-
-        if(hash){
-            location.hash = "#" + hash;
-        }
-    }
-
-    function search() {
-        location.href = "/";
-    }
-    
     function saveFirstPageUsers(jsData){
         if(!jsData || jsData.err != 0 || !jsData.users){
            return alert(jsData.msg);
         }
         pageUsers = jsData;
     }
+    
+    function updateSpecailistPage(uid){
+        if(uid && uid == showUsrID){
+            return;
+        }
 
-    function jump_user_page(evt){
-        evt.preventDefault();
-
-        var uri = $(this).attr('href');
-        var uid = getUidFromUrl(uri);
         var user = getUserById(uid);
         if(!user){
             return;
         }
 
-        //无刷新跳转，更新URL
-        if(history.pushState){
-            window.history.pushState({url: '/', uid: uid}, null, uri);
-        }
-        else{
-            window.location.href = uri;
-            return;
-        }
-
-        var pageUser = $("#user_page");
-        var html = template_userpage(user);
+        showUsrID = uid;
+        var pageUser = $("#page_specialist");
+        var html = template_specialist(user);
         pageUser.empty();
         pageUser.append(html);
-
-        //无刷新回退，更新URL
-        $(".back_link").click(function(evt) {
-            if(history.pushState){
-                window.history.pushState({url: '/', uid: uid}, null, '/');
-            }
-            else{
-                window.location.href = '/';
-                return;
-            }
-            jump_back(uid);
-            return false;
-        });
-
-        pageHash = uid;
-        jump_to('user_page');
-        return false;
-    }
-
-    function onPrevOrBack(evt){
-        if(!evt.state || evt.state.uri == '/'){
-            jump_to('main_page', pageHash);
-        }
-        else{
-            jump_to('user_page');
-        }
     }
 
     function init_template(){
@@ -518,25 +485,137 @@
         source = source.replace(/img_url_xxx/, newTag3);
         template_userlist = Handlebars.compile(source);
 
-        source = $("#user_page").html();
+        source = $("#page_specialist").html();
         source = source.replace(/{/g, newTag);
         source = source.replace(/}/g, mewTag2);
         source = source.replace(/img_url_xxx/, newTag3);
-        template_userpage = Handlebars.compile(source);
+        template_specialist = Handlebars.compile(source);
+    }
+
+    function changePage(path){
+        var pageDataUrl = path;
+        if(pageDataUrl == '/'){
+            pageDataUrl = '/page/0';
+        }
+        pathCur = path;
+        $.ajax({
+            url: pageDataUrl,
+            success: updateUserList,
+            dataType: 'json',
+            beforeSend: function(req) {
+                req.setRequestHeader('pjax', 'yes');
+            },
+        });
+    }
+    
+    function jump_subpage(ev){
+        ev.preventDefault();
+        var path = $(this).attr('href');
+        if(!path){
+            return;
+        }
+
+        //翻页需要更新数据
+        if(this.id == "page_prev" || this.id == "page_next"){
+            return changePage(path);
+        }
+
+        //其他无需更新数据
+        var did = getDevidByPath(path);
+        if(!did){
+            dbg("wrong path, can't get did");
+            return;
+        }
+
+        if(did == 'page_specialist'){
+            var uid = getUidFromPath(path);
+            if(!uid){
+                dbg("wrong path, can't get uid");
+                return;
+            }
+            updateSpecailistPage(uid);
+        }
+
+        showDiv.hide();
+        showDiv = $("#" + did);
+        showDiv.show();
+        history.pushState({did: did, path: path}, null, path);
+
+        return false;
+    }
+
+    function jump_back(){
+        history.back();
+    }
+
+    function onPopState(ev){
+        var path = location.pathname;
+
+        //翻页需要更新数据
+        if(path.length > 6 && path.substr(0, 6) == '/page/'){
+            var pageId = getPageIdFromPath(path);
+            if(pageId != pageCur){
+                changePage(path);
+            }
+            else{
+                showDiv.hide();
+                showDiv = $("#page_main");
+                showDiv.show();
+            }
+            return;
+        }
+
+        var did = getDevidByPath(path);
+        if(!did){
+            dbg("wrong path, can't get did");
+            return;
+        }
+
+        if(did == 'page_specialist'){
+            var uid = getUidFromPath(path);
+            if(!uid){
+                dbg("wrong path, can't get uid");
+                return;
+            }
+            updateSpecailistPage(uid);
+        }
+
+        //切换页面内容
+        showDiv.hide();
+        showDiv = $("#" + did);
+        showDiv.show();
+
+        //更新首页HASH
+        if(did == 'page_main'){
+            if(showUsrID != thisUser.uid){
+                location.hash = "#" + showUsrID;
+            }
+        }
     }
 
     $(document).ready(function () {
+        //获取第一页数据
+        pageCur = getPageIdFromPath(location.pathname);
         $.ajax({
-            url: '/page/0',
+            url: '/page/' + pageCur,
             success: saveFirstPageUsers,
             dataType: 'json'
         });
 
-        showDiv.push($("#main_page"));
-        $("#page_prev").attr("disabled", "disabled");
-        $(".avatar_link").click(jump_user_page);
-        window.addEventListener("popstate", onPrevOrBack, false) ;
+        //记录当前显示页面DIV
+        showDiv = $("#page_main");
 
+        //更新翻页按钮状态
+        updatePageButton(location.pathname);
+
+        //监控子页面跳转信息
+        $("#container").delegate(".front_link", "click", jump_subpage);
+        $("#container").delegate(".back_link", "click", jump_back);
+
+        //监控前进、后退事件
+        $(window).on('popstate', onPopState);
+
+        //编译模板
         init_template();
     });
 </script>

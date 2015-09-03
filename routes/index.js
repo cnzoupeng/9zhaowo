@@ -38,6 +38,7 @@ router.get('/', function(req, res, next) {
 			return res.render('error', err);
 		}
 		mainPage.user = userinfo;
+		mainPage.self = JSON.stringify(userinfo);
 		
 		db.getPageMsg('cnzoupeng', 0, function(err, result){
 			if(err){

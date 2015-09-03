@@ -8,7 +8,7 @@ var pool = mysql.createPool({
 	database: '9zhaowo'
 });
 
-var pageUserCount = 20;
+var pageUserCount = 10;
 var pageMsgCount = 10;
 var userCount = 0;
 
