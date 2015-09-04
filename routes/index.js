@@ -74,6 +74,18 @@ router.get('/', function(req, res, next) {
 	});
 });
 
+router.get('/personal', function(req, res, next){
+	res.redirect('/');
+});
+
+router.get('/msg', function(req, res, next){
+	res.redirect('/');
+});
+
+router.get('/edit', function(req, res, next){
+	res.redirect('/');
+});
+
 router.get('/page/:id', function(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
 	var mainPage = {};

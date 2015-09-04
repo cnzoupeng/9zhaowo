@@ -1,7 +1,11 @@
 var express = require('express');
 var db = require('./db');
 var router = express.Router();
+var jieba = require('nodejieba');
 
+
+//º”‘ÿ∑÷¥ ø‚
+jieba.load();
 
 /* GET users listing. */
 router.get('/:id', function(req, res, next) {
