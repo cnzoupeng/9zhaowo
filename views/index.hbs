@@ -79,12 +79,17 @@
     <div id="page_main" style="">
         <header name="header" data-am-widget="header" class="am-header am-header-default">
             <div class="am-header-left am-header-nav">
-                <a href="#left-link" class="">
+                <a href="/" class="">
                     <i class="am-header-icon am-icon-home"></i>
                 </a>
             </div>
             <h1 class="am-header-title">就找我</h1>
         </header>
+
+        <div id="list_msg" style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; display: none; margin: 10px 10px;color: #A8A8A8;">
+            <p><i id="list_msg_txt"></i></p>
+            <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
+        </div>
 
         <!-- user list -->
         <div id="user_list">
@@ -103,7 +108,7 @@
                         </p>
                        <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
                     </div>
-                    <div class='am-intro-right am-u-sm-9'>{{introduce}}</div>
+                    <div class='am-intro-right am-u-sm-9'>{{shortIntro}}</div>
                 </div>
             </div>
             {{/userList.users}}
@@ -125,7 +130,7 @@
                         </p>
                        <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
                     </div>
-                    <div class='am-intro-right am-u-sm-9'>{introduce}</div>
+                    <div class='am-intro-right am-u-sm-9'>{shortIntro}</div>
                 </div>
             </div>
             {/users}
@@ -147,9 +152,9 @@
             <div class="am-u-sm-8" style="padding-left: 0px;padding-right: 0px;">
                 <div class="am-g">
                     <div class="am-u-lg-6" style="padding-left: 5px;">
-                       <form action="">
-                        <input type="search" class="am-form-field am-round">
-                            </form>
+                        <form id="formSearch" action="/search">
+                        <input id="searchInput" type="search" class="am-form-field am-round">
+                        </form>
                         <!--<div class="am-input-group">
                             <input type="search" class="am-form-field am-round">
                             <span class="am-input-group-btn" style="line-height:39px">
@@ -160,7 +165,7 @@
                 </div>
             </div>
             <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="/search" class="front_link am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
+                <a href="/advsearch" class="front_link am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
             </div>
             <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
                 <a href="/personal" class="front_link am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
@@ -342,15 +347,22 @@
     var lastPage = {{userList.lastPage}};
     var pageCur = 0;
 
+    var shortIntroLen = 60;
+
     var pathCur = '/';
     var pathDev = {
         '/': 'page_main',
+        '/page': 'page_main',
+        '/search': 'page_main',
         '/specialist': 'page_specialist',
-        '/search': 'page_search',
+        '/advsearch': 'page_search',
         '/personal': 'page_personal',
         '/msg': 'page_msg',
-        '/edit': 'page_edit',
-        '/page': 'page_main'
+        '/edit': 'page_edit'
+    }
+
+    String.prototype.trim=function(){
+        return this.replace(/(^\s*)|(\s*$)/g, '');
     }
 
     function dbg(msg){
@@ -370,13 +382,48 @@
         return null;
     }
 
+    function parsePath(path){
+        var result = {};
+        var param = [];
+        var arr = path.split('?');
+
+        if(arr[1]){
+            var arr3 = arr[1].split('&');
+            for(var i in arr3){
+                var arr4 = arr3[i].split('=');
+                if(arr4.length == 2){
+                    param[arr4[0]] =  arr4[1];
+                }
+            }
+        }
+
+        var arr2 = arr[0].split('/');
+        result.lastPath = arr2.pop();
+        result.path = arr[0];
+        result.param = param;
+        return result;
+    }
+
+    function buildSearchPage(pathx, pageId){
+        var url = pathx.path;
+        url += "?";
+        url += "key=\"" + pathx.param.key;
+        url += "\"&page=" + pageId;
+        return url;
+    }
+
     function getPageIdFromPath(path){
         if(!path || path == '/'){
             return 0;
         }
-        var arr = path.split('?');
-        var arr2 = arr[0].split('/');
-        return arr2.pop();
+        var result = parsePath(path);
+        if(result.path == '/search'){
+            if(result.param.page){
+                return result.param.page;
+            }
+            return 0;
+        }
+        return result.lastPath;
     }
 
     function getDevidByPath(path){
@@ -396,30 +443,63 @@
     }
 
     function updatePageButton(path){
-        var pageId = parseInt(getPageIdFromPath(path));
+        var result = parsePath(path);
+        var pageId = 0;
+        var isSearch = false;
+
+        if(result.path == '/search'){
+            if(!result.param.page){
+                pageId = 0;
+            }
+            else{
+                pageId = parseInt(result.param.page);
+            }
+            isSearch = true;
+        }
+        else{
+            pageId = parseInt(result.lastPath);
+            if(isNaN(pageId)){
+                pageId = 0;
+            }
+        }
         var prevId = pageId - 1;
         var nextId = pageId + 1;
 
+        //前一页
         if(pageId != 0){
             $('#page_prev').removeAttr("disabled");
-            if(prevId == 0){
-                $("#page_prev").attr("href", "/");
+            if(isSearch){
+                var url = buildSearchPage(result, prevId);
+                $("#page_prev").attr("href", url);
             }
             else{
-                $("#page_prev").attr("href", "/page/" + prevId);
+                if(prevId == 0){
+                    $("#page_prev").attr("href", "/");
+                }
+                else{
+                    $("#page_prev").attr("href", "/page/" + prevId);
+                }
             }
         }
         else{
             $("#page_prev").attr("disabled", "disabled");
             $('#page_prev').removeAttr("href");
         }
+
+        //后一页
         if(lastPage){
             $("#page_next").attr("disabled", "disabled");
             $('#page_next').removeAttr("href");
         }
         else{
-            $('#page_next').removeAttr("disabled");
-            $("#page_next").attr("href", "/page/" + nextId);
+            if(isSearch){
+                var url = buildSearchPage(result, nextId);
+                $("#page_next").attr("href", url);
+            }
+            else{
+                $('#page_next').removeAttr("disabled");
+                $("#page_next").attr("href", "/page/" + nextId);
+            }
         }
     }
 
@@ -431,24 +511,32 @@
         lastPage = jsData.userList.lastPage;
         pageUsers = jsData.userList;
         if(pageUsers.users.length == 0){
-            updatePageButton(pathCur);
-            dbg('Fatal error, no page data get');
-            return;
+            $("#list_msg_txt").text('没有找到相关信息哦 ...');
+            $("#list_msg").show();
+            $("#user_list").empty();
         }
+        else{
+            var users = pageUsers.users;
+            for(var i in users){
+                users[i].shortIntro = users[i].introduce.substr(0, shortIntroLen);
+                if(users[i].introduce.length > 60){
+                    users[i].shortIntro += " . . .";
+                }
+            }
+            pageUsers.userList = [];
+            var pageList = $("#user_list");
+            var htmlAll = template_userlist(pageUsers);
 
-        var pageList = $("#user_list");
-        var htmlAll = template_userlist(pageUsers);
-
-        pageList.empty();        
-        pageList.append(htmlAll);
+            pageList.empty();
+            pageList.append(htmlAll);
+            history.pushState({did: 'page_main', path: pathCur}, null, pathCur);
+        }
 
         if(showDiv.selector != "#page_main"){
             showDiv.hide();
             showDiv = $("#page_main");
             showDiv.show();
         }
-
-        history.pushState({did: 'page_main', path: pathCur}, null, pathCur);
 
         //滚动到头部
         $(window).scrollTop(0);
@@ -464,6 +552,13 @@
            return alert(jsData.msg);
         }
         pageUsers = jsData.userList;
+        var users = pageUsers.users;
+        for(var i in users){
+            users[i].shortIntro = users[i].introduce.substr(0, shortIntroLen);
+            if(users[i].introduce.length > 60){
+                users[i].shortIntro += " . . .";
+            }
+        }
     }
     
     function updateSpecailistPage(uid){
@@ -514,6 +609,8 @@
                 req.setRequestHeader('pjax', 'yes');
             }
         });
+
+        $("#list_msg").hide();
     }
     
     function jump_subpage(ev){
@@ -554,6 +651,19 @@
 
     function jump_back(){
         history.back();
+    }
+
+    function onSearch(ev){
+        ev.preventDefault();
+        var str = $("#searchInput").val();
+        str = str.trim();
+
+        if(str.length == 0){
+           return;
+        }
+
+        path = "/search?key=\"" + str + "\"";
+        changePage(path);
     }
 
     function onPopState(ev){
@@ -601,17 +711,29 @@
         }
     }
 
-    $(document).ready(function () {
-        //获取第一页数据
+    function updateFirtPage(){
         pageCur = getPageIdFromPath(location.pathname);
+        var url = location.pathname + location.search;
+        if(url == '/'){
+            url = '/page/0';
+        }
         $.ajax({
-            url: '/page/' + pageCur,
+            url: url,
             success: saveFirstPageUsers,
             dataType: 'json',
             beforeSend: function(req) {
                 req.setRequestHeader('pjax', 'yes');
             }
         });
+
+        if(location.pathname == '/'){
+            history.pushState({did: 'page_main', path: '/page/0'}, null, '/page/0');
+        }
+    }
+
+    $(document).ready(function () {
+        //获取第一页数据
+        updateFirtPage();
 
         //记录当前显示页面DIV
         showDiv = $("#page_main");
@@ -622,6 +744,7 @@
         //监控子页面跳转信息
         $("#container").delegate(".front_link", "click", jump_subpage);
         $("#container").delegate(".back_link", "click", jump_back);
+        $("#formSearch").submit(onSearch);
 
         //监控前进、后退事件
         $(window).on('popstate', onPopState);

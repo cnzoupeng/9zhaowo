@@ -8,7 +8,7 @@ var jieba = require('nodejieba');
 jieba.load();
 
 
-router.get('/search', function(req, res, next){
+router.get('/', function(req, res, next){
     if(!req.query.key){
         return res.redirect('/');
     }
@@ -19,11 +19,10 @@ router.get('/search', function(req, res, next){
 
     var arr = [];
     var seg = jieba.cut(req.query.key);
-    for(var i in seq){
-        if(seq[i].length > 1){
-            arr.push(seq[i]);
+    for(var i in seg){
+        if(seg[i].length > 1){
+            arr.push(seg[i]);
         }
-        arr.push(seq[i]);
     }
 
     //通过请求头部的pjax判断是否渲染
@@ -33,28 +32,40 @@ router.get('/search', function(req, res, next){
         res.setHeader("Content-Type", "application/json");
     }
 
-    var mainPage = {};
+    var mainPage = {err: 0};
     var key = arr.join(' ');
+
+    logSearch(req.query.key, key);
+
     db.query(key, pageId, function(err, result){
         if(needRender){
             if(err){
-                logErr(1006, errc);
+                logErr(1006, err);
                 return res.render('error', err);
             }
-            for(var i in result.users){
-                if(result.users[i].introduce.length > MAX_INTRO_LEN){
-                    result.users[i].introduce = result.users[i].introduce.substr(0, db.max_intro_len);
-                    result.users[i].introduce += "...";
+
+            var users = result.users;
+            for(var i in users){
+                if(users[i].introduce.length > db.max_intro_len){
+                    users[i].shortIntro = users[i].introduce.substr(0, db.max_intro_len);
+                    if(users[i].introduce.length > 60){
+                        users[i].shortIntro += " . . .";
+                    }
                 }
             }
+            mainPage.user = {self: '{}'};
             mainPage.login = false;
             mainPage.userList = result;
             return res.render('index', mainPage);
         }
 
         mainPage.userList = result;
-        res.end(mainPage);
+        res.end(JSON.stringify(mainPage));
     });
 });
+
+function logSearch(str, key){
+    return;
+}
 
 module.exports = router;

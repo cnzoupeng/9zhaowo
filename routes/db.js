@@ -2,7 +2,7 @@ var mysql = require('mysql');
 
 var pool = mysql.createPool({
 	connectionLimit: 20,
-	host: '10.66.105.135',
+	host: 'localhost',
 	user: 'root',
 	password: 'passwd@db',
 	database: '9zhaowo'
@@ -168,7 +168,7 @@ function queryKey(key, pageId, call){
 	pool.getConnection(function(errc, conn){
 		if(errc){
 			logErr(1005, errc);
-			return call(JSON.stringify({err:1, msg:errc}));
+			return call({err:1, msg:errc});
 		}
 
 		var userStart = pageId * pageUserCount;
@@ -179,9 +179,8 @@ function queryKey(key, pageId, call){
 		logDbg(1010, sql);
 		conn.query(sql, function(errx, rows, fields){
 			conn.release();
-			if(!rows || rows.length == 0){
-				logErr(1011, 'db error empty');
-				return call(JSON.stringify({err:2, msg:'no users found'}));
+			if(errx){
+				return call({err:2, msg:errx});
 			}
 
 			var result = {users: []};

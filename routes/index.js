@@ -14,10 +14,13 @@ router.get('/', function(req, res, next) {
 			return res.render('error', err);
 		}
 
-		for(var i in result1.users){
-			if(result1.users[i].introduce.length > db.max_intro_len){
-				result1.users[i].introduce = result1.users[i].introduce.substr(0, db.max_intro_len);
-				result1.users[i].introduce += "...";
+		var users = result1.users;
+		for(var i in users){
+			if(users[i].introduce.length > db.max_intro_len){
+				users[i].shortIntro = users[i].introduce.substr(0, db.max_intro_len);
+				if(users[i].introduce.length > 60){
+					users[i].shortIntro += " . . .";
+				}
 			}
 		}
 		mainPage.userList = result1;
@@ -36,7 +39,6 @@ router.get('/', function(req, res, next) {
 			mainPage.user = result2.user;
 			mainPage.msg = result2.msg;
 			mainPage.login = true;
-			console.log(mainPage);
 
 			res.render('index', mainPage);
 		})
@@ -70,10 +72,13 @@ router.get('/page/:id', function(req, res, next) {
 				return res.render('error', errc);
 			}
 
-			for(var i in result.users){
-				if(result.users[i].introduce.length > db.max_intro_len){
-					result.users[i].introduce = result.users[i].introduce.substr(0, db.max_intro_len);
-					result.users[i].introduce += "...";
+			var users = result.users;
+			for(var i in users){
+				if(users[i].introduce.length > db.max_intro_len){
+					users[i].shortIntro = users[i].introduce.substr(0, db.max_intro_len);
+					if(users[i].introduce.length > 60){
+						users[i].shortIntro += " . . .";
+					}
 				}
 			}
 			mainPage.user = {self: '{}'};
@@ -104,6 +109,11 @@ router.get('/msg', function(req, res, next){
 router.get('/edit', function(req, res, next){
 	res.redirect('/');
 });
+
+router.get('/advsearch', function(req, res, next){
+	res.redirect('/');
+});
+
 
 router.get('/updateMsg', function(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
