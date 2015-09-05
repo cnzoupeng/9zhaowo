@@ -88,7 +88,7 @@
 
         <!-- user list -->
         <div id="user_list">
-            {{#firstPage}}
+            {{#userList.users}}
             <div id='{{uid}}' class="userBack">
                 <div class='am-g am-intro-bd' style='background-color: white;'>
                     <div class='am-intro-left am-u-sm-3'>
@@ -106,7 +106,7 @@
                     <div class='am-intro-right am-u-sm-9'>{{introduce}}</div>
                 </div>
             </div>
-            {{/firstPage}}
+            {{/userList.users}}
         </div>
         
        <div id="user_list_template" style="display:none">
@@ -183,27 +183,27 @@
     <div id="page_edit" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">姓名</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.name}}</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.name}}</div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">手机号</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.mobile}} <i>(他人不可见)</i></div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.mobile}} <i>(他人不可见)</i></div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">地区</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.city}}</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.city}}</div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">标签</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.tag}}</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.tag}}</div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">简介</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.introduce}}</div>
+            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.introduce}}</div>
         </div>
 
         <div class="bottomNav">
@@ -216,11 +216,11 @@
     <div id="page_personal" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 20px;    padding-top: 20px;    padding-bottom: 20px;">
             <div class="am-u-sm-3">
-                <img class="am-radius am-img-thumbnail" alt="140*140" src="{{user.avatar}}" width="140" height="140"/>
+                <img class="am-radius am-img-thumbnail" alt="140*140" src="{{user.info.avatar}}" width="140" height="140"/>
             </div>
             <div class="am-u-sm-9">
-                <div class="am-u-sm-12">{{user.name}}</div>
-                <div class="am-u-sm-12">{{user.specialist}}</div>
+                <div class="am-u-sm-12">{{user.info.name}}</div>
+                <div class="am-u-sm-12">{{user.info.specialist}}</div>
             </div>
         </div>
 
@@ -237,7 +237,7 @@
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
-            <a href="/specialist/{{user.uid}}" class="front_link">
+            <a href="/specialist/{{user.info.uid}}" class="front_link">
                 <div style="padding-left:20px">个人主页</div>
             </a>
         </div>
@@ -334,12 +334,12 @@
     var showDiv = {};
 
     var showUsrID = '';
-    var thisUser = {{{self}}};
+    var thisUser = {{{user.self}}};
     
     var template_userlist;
     var template_specialist;
 
-    var pageIdMax = {{pageCount}};
+    var lastPage = {{userList.lastPage}};
     var pageCur = 0;
 
     var pathCur = '/';
@@ -413,7 +413,7 @@
             $("#page_prev").attr("disabled", "disabled");
             $('#page_prev').removeAttr("href");
         }
-        if(pageId == (pageIdMax - 1)){
+        if(lastPage){
             $("#page_next").attr("disabled", "disabled");
             $('#page_next').removeAttr("href");
         }
@@ -424,25 +424,30 @@
     }
 
     function updateUserList(jsData){
-        if(!jsData || jsData.err != 0 || !jsData.users){
+        if(!jsData || jsData.err != 0 || !jsData.userList){
            return alert(jsData.msg);
         }
-        
-        pageUsers = jsData;
-        if(jsData.users.length == 0){
+
+        lastPage = jsData.userList.lastPage;
+        pageUsers = jsData.userList;
+        if(pageUsers.users.length == 0){
+            updatePageButton(pathCur);
             dbg('Fatal error, no page data get');
             return;
         }
 
         var pageList = $("#user_list");
-        var htmlAll = template_userlist(jsData);
+        var htmlAll = template_userlist(pageUsers);
 
         pageList.empty();        
         pageList.append(htmlAll);
 
-        showDiv.hide();
-        showDiv = $("#page_main");
-        showDiv.show();
+        if(showDiv.selector != "#page_main"){
+            showDiv.hide();
+            showDiv = $("#page_main");
+            showDiv.show();
+        }
+
         history.pushState({did: 'page_main', path: pathCur}, null, pathCur);
 
         //滚动到头部
@@ -455,10 +460,10 @@
     }
 
     function saveFirstPageUsers(jsData){
-        if(!jsData || jsData.err != 0 || !jsData.users){
+        if(!jsData || jsData.err != 0 || !jsData.userList ){
            return alert(jsData.msg);
         }
-        pageUsers = jsData;
+        pageUsers = jsData.userList;
     }
     
     function updateSpecailistPage(uid){
@@ -507,7 +512,7 @@
             dataType: 'json',
             beforeSend: function(req) {
                 req.setRequestHeader('pjax', 'yes');
-            },
+            }
         });
     }
     
@@ -602,7 +607,10 @@
         $.ajax({
             url: '/page/' + pageCur,
             success: saveFirstPageUsers,
-            dataType: 'json'
+            dataType: 'json',
+            beforeSend: function(req) {
+                req.setRequestHeader('pjax', 'yes');
+            }
         });
 
         //记录当前显示页面DIV

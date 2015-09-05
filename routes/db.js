@@ -10,6 +10,7 @@ var pool = mysql.createPool({
 
 var pageUserCount = 10;
 var pageMsgCount = 10;
+var max_intro_len = 60;
 var userCount = 0;
 
 function getUserInfo(id, call){
@@ -66,6 +67,7 @@ function getPageUsers(pageId, call){
 			}
 			
 			var result = {count: userCount, users: []}
+			result.lastPage = rows.length == pageUserCount ? false : true;
 			for(var i in rows){
 				var one = {};
 				one.uid = rows[i].uid;
@@ -83,7 +85,6 @@ function getPageUsers(pageId, call){
 		})
 	});
 }
-
 
 function getPageMsg(id, pageId, call){
 	pool.getConnection(function(errc, conn){
@@ -105,6 +106,8 @@ function getPageMsg(id, pageId, call){
 			if(pageId == 0 && rows[0].isReaded == 0){
 				result.hasNew = true;
 			}
+			result.lastPage = rows.length == pageMsgCount ? false : true;
+
 			for(var i in rows){
 				var one = {};
 				one.time = rows[i].time;
@@ -141,7 +144,6 @@ function updateUserMsgState(id, time, call){
 	});
 }
 
-
 function _updateUserCount(){
 	pool.getConnection(function(errc, conn){
 		if(errc){
@@ -162,6 +164,46 @@ function _updateUserCount(){
 	});
 }
 
+function queryKey(key, pageId, call){
+	pool.getConnection(function(errc, conn){
+		if(errc){
+			logErr(1005, errc);
+			return call(JSON.stringify({err:1, msg:errc}));
+		}
+
+		var userStart = pageId * pageUserCount;
+		var sql = "SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce,MATCH(name,seg_tag,seg_intro) AGAINST ('";
+		sql +=	key;
+		sql += "') as relation FROM `users` order by relation desc limit " + userStart + "," + pageUserCount;
+
+		logDbg(1010, sql);
+		conn.query(sql, function(errx, rows, fields){
+			conn.release();
+			if(!rows || rows.length == 0){
+				logErr(1011, 'db error empty');
+				return call(JSON.stringify({err:2, msg:'no users found'}));
+			}
+
+			var result = {users: []};
+			result.lastPage = rows.length == pageUserCount ? false : true;
+
+			for(var i in rows){
+				var one = {};
+				one.uid = rows[i].uid;
+				one.name = rows[i].name;
+				one.city = rows[i].wx_city;
+				one.tag = rows[i].tag;
+				one.avatar = rows[i].wx_headimgurl;
+				one.industry = rows[i].industry;
+				one.specialist = rows[i].specialist;
+				one.introduce = rows[i].introduce;
+				result.users.push(one);
+			}
+
+			call(0, result);
+		})
+	});
+}
 
 _updateUserCount();
 
@@ -169,8 +211,10 @@ module.exports = {};
 
 module.exports.pageUserCount = pageUserCount;
 module.exports.pageMsgCount = pageMsgCount;
+module.exports.max_intro_len = max_intro_len;
 
 module.exports.getUserInfo = getUserInfo;
 module.exports.getPageUsers = getPageUsers;
 module.exports.getPageMsg = getPageMsg;
 module.exports.updateUserMsgState = updateUserMsgState;
+module.exports.query = queryKey;
