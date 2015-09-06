@@ -266,9 +266,9 @@
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 5px;    padding-top: 10px; padding-bottom: 10px;">
-            <div class="am-u-sm-3" style="padding-left:20px">行业</div>
-            <div class="am-u-sm-9" style="padding-left:20px">IT</div>
-        </div>
+        <div class="am-u-sm-3" style="padding-left:20px">行业</div>
+        <div class="am-u-sm-9" style="padding-left:20px">IT</div>
+    </div>
 
         <div style="z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;padding-top: 5px;height:49px">
             <a href="/" class="back_link am-btn am-btn-primary">搜索</a>
@@ -649,7 +649,8 @@
         return false;
     }
 
-    function jump_back(){
+    function jump_back(ev){
+        ev.preventDefault();
         history.back();
     }
 

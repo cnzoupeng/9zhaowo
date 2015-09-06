@@ -65,6 +65,10 @@ router.get('/page/:id', function(req, res, next) {
 		res.setHeader("Content-Type", "application/json");
 	}
 
+	if(needRender && pageId == 0){
+		return res.redirect('/');
+	}
+
 	getPageInfo(pageId, function(errc, result){
 		if(needRender) {
 			if(errc) {

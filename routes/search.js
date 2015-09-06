@@ -4,7 +4,7 @@ var db = require('./db');
 var jieba = require('nodejieba');
 
 
-//¼ÓÔØ·Ö´Ê¿â
+//åŠ è½½åˆ†è¯åº“
 jieba.load();
 
 
@@ -25,7 +25,7 @@ router.get('/', function(req, res, next){
         }
     }
 
-    //Í¨¹ıÇëÇóÍ·²¿µÄpjaxÅĞ¶ÏÊÇ·ñäÖÈ¾
+    //é€šè¿‡è¯·æ±‚å¤´éƒ¨çš„pjaxåˆ¤æ–­æ˜¯å¦æ¸²æŸ“
     var needRender = true;
     if(req.headers.pjax && req.headers.pjax == 'yes'){
         needRender = false;

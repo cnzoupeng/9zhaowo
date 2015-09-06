@@ -172,9 +172,19 @@ function queryKey(key, pageId, call){
 		}
 
 		var userStart = pageId * pageUserCount;
-		var sql = "SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce,MATCH(name,seg_tag,seg_intro) AGAINST ('";
-		sql +=	key;
-		sql += "') as relation FROM `users` order by relation desc limit " + userStart + "," + pageUserCount;
+		/*
+		var sql = "SELECT * from (SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce,MATCH(seg_core) AGAINST ('";
+		sql += key;
+		sql += "') as relation FROM `users`  UNION SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce,MATCH(seg_intro) AGAINST('";
+		sql += key;
+		sql += "' IN BOOLEAN MODE) as relation FROM `users` order by relation desc) as t where relation > 0 limit " + userStart + "," + pageUserCount;
+		*/
+
+		var sql = "SELECT * from (SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM `users` where MATCH(seg_core) AGAINST ('";
+		sql += key;
+		sql += "') UNION  SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM `users` where MATCH(seg_intro) AGAINST('";
+		sql += key;
+		sql += "' IN BOOLEAN MODE) ) as t limit " + userStart + "," + pageUserCount;
 
 		logDbg(1010, sql);
 		conn.query(sql, function(errx, rows, fields){
