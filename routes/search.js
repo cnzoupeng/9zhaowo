@@ -9,20 +9,8 @@ jieba.load();
 
 
 router.get('/', function(req, res, next){
-    if(!req.query.key){
+    if(!req.query.key && !req.query.city && !req.query.industry){
         return res.redirect('/');
-    }
-    var pageId = 0;
-    if(req.query.page){
-        pageId = req.query.page;
-    }
-
-    var arr = [];
-    var seg = jieba.cut(req.query.key);
-    for(var i in seg){
-        if(seg[i].length > 1){
-            arr.push(seg[i]);
-        }
     }
 
     //通过请求头部的pjax判断是否渲染
@@ -32,12 +20,29 @@ router.get('/', function(req, res, next){
         res.setHeader("Content-Type", "application/json");
     }
 
+    var pageId = 0;
+    if(req.query.page){
+        pageId = req.query.page;
+    }
+
+    var queryx = {};
+    queryx.key = "";
+    if(req.query.key){
+        var arr = [];
+        var seg = jieba.cut(req.query.key);
+        for(var i in seg){
+            if(seg[i].length > 1){
+                arr.push(seg[i]);
+            }
+        }
+        queryx.key = arr.join(' ');
+    }
+
+    queryx.city = req.query.city;
+    queryx.industry = req.query.industry;
     var mainPage = {err: 0};
-    var key = arr.join(' ');
 
-    logSearch(req.query.key, key);
-
-    db.query(key, pageId, function(err, result){
+    db.query(queryx, pageId, function(err, result){
         if(needRender){
             if(err){
                 logErr(1006, err);
@@ -63,9 +68,5 @@ router.get('/', function(req, res, next){
         res.end(JSON.stringify(mainPage));
     });
 });
-
-function logSearch(str, key){
-    return;
-}
 
 module.exports = router;

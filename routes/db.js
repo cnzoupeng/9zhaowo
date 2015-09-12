@@ -164,7 +164,7 @@ function _updateUserCount(){
 	});
 }
 
-function queryKey(key, pageId, call){
+function queryKey(query, pageId, call){
 	pool.getConnection(function(errc, conn){
 		if(errc){
 			logErr(1005, errc);
@@ -172,19 +172,7 @@ function queryKey(key, pageId, call){
 		}
 
 		var userStart = pageId * pageUserCount;
-		/*
-		var sql = "SELECT * from (SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce,MATCH(seg_core) AGAINST ('";
-		sql += key;
-		sql += "') as relation FROM `users`  UNION SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce,MATCH(seg_intro) AGAINST('";
-		sql += key;
-		sql += "' IN BOOLEAN MODE) as relation FROM `users` order by relation desc) as t where relation > 0 limit " + userStart + "," + pageUserCount;
-		*/
-
-		var sql = "SELECT * from (SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM `users` where MATCH(seg_core) AGAINST ('";
-		sql += key;
-		sql += "') UNION  SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM `users` where MATCH(seg_intro) AGAINST('";
-		sql += key;
-		sql += "' IN BOOLEAN MODE) ) as t limit " + userStart + "," + pageUserCount;
+		var sql = buildQuerySql(query, pageId);
 
 		logDbg(1010, sql);
 		conn.query(sql, function(errx, rows, fields){
@@ -213,6 +201,35 @@ function queryKey(key, pageId, call){
 		})
 	});
 }
+
+function buildQuerySql(query, pageId){
+	var sql = "";
+	var condition = [];
+
+	if(query.city){
+		condition.push("wx_city like '%" + query.city + "%'");
+	}
+	if(query.industry){
+		condition.push("industry like '%" + query.industry + "%'");
+	}
+
+	if(query.key){
+		condition.push("MATCH(seg_core) AGAINST ('" + query.key + "')");
+		sql = "SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM users where " + condition.join(' AND ') ;
+		condition.pop();
+		condition.push("MATCH(seg_intro) AGAINST ('" + query.key + "' IN BOOLEAN MODE)");
+		sql += " UNION SELECT uid,name,wx_city,tag,industry,wx_headimgurl,specialist,introduce FROM users where ";
+		sql += condition.join(' AND ');
+	}
+	else{
+		sql = "SELECT * FROM users where " + condition.join(' AND ');
+	}
+	var userStart = pageId * pageUserCount;
+	var sqlRet = "SELECT * from (" + sql + ") as t limit " + userStart + "," + pageUserCount;
+	return sqlRet;
+}
+
+
 
 _updateUserCount();
 

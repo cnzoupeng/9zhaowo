@@ -257,22 +257,27 @@
     <div id="page_search" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 30px;    padding-top: 10px; padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">关键字</div>
-            <div class="am-u-sm-9" style="padding-left:20px">web</div>
+            <div class="am-u-sm-9" style="padding-left:20px">
+                <input type="text" id="search_key" class="am-form-field am-radius" />
+            </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 5px;    padding-top: 10px; padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">区域</div>
-            <div class="am-u-sm-9" style="padding-left:20px">广东/深圳</div>
+            <div class="am-u-sm-9" style="padding-left:20px">
+                <input type="text" id="search_city" class="am-form-field am-radius" />
+            </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 5px;    padding-top: 10px; padding-bottom: 10px;">
         <div class="am-u-sm-3" style="padding-left:20px">行业</div>
-        <div class="am-u-sm-9" style="padding-left:20px">IT</div>
-    </div>
+        <div class="am-u-sm-9" style="padding-left:20px">
+            <input type="text" id="search_indus" class="am-form-field am-radius" />
+        </div>
+        </div>
 
         <div style="z-index:999; position:fixed; bottom:0; left:0; width:100%; _position:absolute;padding-top: 5px;height:49px">
-            <a href="/" class="back_link am-btn am-btn-primary">搜索</a>
-            <!--<button type="button" class="am-btn am-btn-primary" style="width:100%" onclick="jump_to('page_main')">搜索</button>-->
+            <a href="/search" id="advSearch" class="am-btn am-btn-primary" style="width: 100%;">搜索</a>
         </div>
     </div>
     <!-- page_search end -->
@@ -407,7 +412,11 @@
     function buildSearchPage(pathx, pageId){
         var url = pathx.path;
         url += "?";
-        url += "key=\"" + pathx.param.key;
+        var arr = [];
+        for(var i in pathx.param){
+            arr.push( i + "=" + pathx.param[i]);
+        }
+        url += arr.join('&');
         url += "\"&page=" + pageId;
         return url;
     }
@@ -732,6 +741,31 @@
         }
     }
 
+    function advSearch(ev){
+        ev.preventDefault();
+        var key = $("#search_key").val().trim();
+        var city = $("#search_city").val().trim();
+        var industry = $("#search_indus").val().trim();
+
+        if(!key && !city && !industry){
+            return;
+        }
+
+        var path = "/search?";
+        var arr = [];
+        if(key.length > 0){
+            arr.push('key=' + key);
+        }
+        if(city.length > 0){
+            arr.push('city=' + city);
+        }
+        if(industry.length > 0){
+            arr.push('industry=' + industry);
+        }
+        path += arr.join('&');
+        changePage(path);
+    }
+
     $(document).ready(function () {
         //获取第一页数据
         updateFirtPage();
@@ -746,6 +780,7 @@
         $("#container").delegate(".front_link", "click", jump_subpage);
         $("#container").delegate(".back_link", "click", jump_back);
         $("#formSearch").submit(onSearch);
+        $("#advSearch").click(advSearch);
 
         //监控前进、后退事件
         $(window).on('popstate', onPopState);
