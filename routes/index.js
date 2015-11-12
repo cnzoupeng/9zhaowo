@@ -5,10 +5,15 @@ var db = require('./db');
 
 router.get('/', function(req, res, next) {
 	var mainPage = {};
-	var uid = '952070';
+	//var uid = req.session.user;
+	var uid = 952091;
+	var industry = req.query.industry;
+	if(!industry){
+		industry = 'all';
+	}
 
 	//获取一页用户
-	getPageInfo(0, function(err, result1){
+	getPageInfo(industry, 0, function(err, result1){
 		if(err){
 			logErr(1003, err);
 			return res.render('error', err);
@@ -16,6 +21,9 @@ router.get('/', function(req, res, next) {
 
 		var users = result1.users;
 		for(var i in users){
+			if(!users[i].introduce){
+				continue;
+			}
 			if(users[i].introduce.length > db.max_intro_len){
 				users[i].shortIntro = users[i].introduce.substr(0, db.max_intro_len);
 				if(users[i].introduce.length > 60){
@@ -46,11 +54,19 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/page/:id', function(req, res, next) {
+	var industry = req.query.industry;
 	var pageId = req.params.id;
 	if(pageId === undefined){
 		logErr(1004, "wrong page id recved");
 		return res.end(JSON.stringify({err: 3, msg: "wrong id"}));
 	}
+	if(!industry){
+		industry = 'all';
+	}
+
+	//var uid = req.session.user;
+	var uid = 952091;
+
 	pageId = parseInt(pageId);
 	if(isNaN(pageId) || pageId < 0){
 		logErr(1005, "wrong page id recved");
@@ -65,40 +81,53 @@ router.get('/page/:id', function(req, res, next) {
 		res.setHeader("Content-Type", "application/json");
 	}
 
-	if(needRender && pageId == 0){
-		return res.redirect('/');
-	}
-
-	getPageInfo(pageId, function(errc, result){
+	getPageInfo(industry, pageId, function(errc, result){
 		if(needRender) {
+
 			if(errc) {
 				logErr(1006, errc);
-				return res.render('error', errc);
+				return res.render('error', {msg: JSON.stringify(errc)});
 			}
-
 			var users = result.users;
 			for(var i in users){
 				if(users[i].introduce.length > db.max_intro_len){
 					users[i].shortIntro = users[i].introduce.substr(0, db.max_intro_len);
-					if(users[i].introduce.length > 60){
+					if(users[i].introduce.length > db.max_intro_len){
 						users[i].shortIntro += " . . .";
 					}
 				}
 			}
-			mainPage.user = {self: '{}'};
+
+			mainPage.userList = result;
+			if(!uid){
+				mainPage.user = {self: '{}'};
+				mainPage.login = false;
+				return res.render('index', mainPage);
+			}
+
+
+			//获取当前用户信息
+			getUserInfo(uid, function(err, result2){
+				if(err){
+					logErr(1003, err);
+					return res.render('error', err);
+				}
+				mainPage.user = result2.user;
+				mainPage.msg = result2.msg;
+				mainPage.login = true;
+				res.render('index', mainPage);
+			})
+		}
+		else{
+			//ajax
+			if(errc){
+				logErr(1006, errc);
+				return res.end(JSON.stringify({err: 3, msg: errc}));
+			}
 			mainPage.login = false;
 			mainPage.userList = result;
-			return res.render('index', mainPage);
+			res.end(JSON.stringify(mainPage));
 		}
-
-		//ajax
-		if(errc){
-			logErr(1006, errc);
-			return res.end(JSON.stringify({err: 3, msg: errc}));
-		}
-		mainPage.login = false;
-		mainPage.userList = result;
-		res.end(JSON.stringify(mainPage));
 	});
 });
 
@@ -106,9 +135,6 @@ router.get('/personal', function(req, res, next){
 	res.redirect('/');
 });
 
-router.get('/msg', function(req, res, next){
-	res.redirect('/');
-});
 
 router.get('/edit', function(req, res, next){
 	res.redirect('/');
@@ -117,7 +143,6 @@ router.get('/edit', function(req, res, next){
 router.get('/advsearch', function(req, res, next){
 	res.redirect('/');
 });
-
 
 router.get('/updateMsg', function(req, res, next) {
 	res.setHeader("Content-Type", "application/json");
@@ -132,9 +157,9 @@ router.get('/updateMsg', function(req, res, next) {
 
 //===================================================================
 
-function getPageInfo(pageId, call){
+function getPageInfo(industry, pageId, call){
 	var pageInfo = {};
-	db.getPageUsers(pageId, function(errc, result){
+	db.getPageUsers(industry, pageId, function(errc, result){
 		if(errc){
 			logErr(1006, errc);
 			return call(errc);
@@ -153,15 +178,17 @@ function getPageInfo(pageId, call){
 
 function getUserInfo(uid, call){
 	var result = {user: {}, msg: {}};
-	db.getUserInfo('952070', function(err, userinfo) {
+	db.getUserInfo(uid, function(err, userinfo) {
 		if (err) {
 			logErr(1001, err);
 			return call(err);
 		}
+
+
 		result.user.info = userinfo;
 		result.user.self = JSON.stringify(userinfo);
 
-		db.getPageMsg('cnzoupeng', 0, function (err, userMsg) {
+		db.getPageMsg(uid, 0, function (err, userMsg) {
 			if (err) {
 				logErr(1002, err);
 				return call(err);

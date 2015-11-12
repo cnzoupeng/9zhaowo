@@ -30,7 +30,7 @@
     <meta name="msapplication-TileImage" content="assets/i/app-icon72x72@2x.png">
     <meta name="msapplication-TileColor" content="#0e90d2">
 
-    <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/amazeui.min.css">
+    <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/amazeui.css">
     <link rel="stylesheet" href="http://static.9zhaowo.com/assets/css/app.css">
     
     <style id="bgtyle"  type="text/css">
@@ -70,20 +70,169 @@
 
         .back_link {
         }
+
+        .comment-margin {
+            margin: 15px 15px;
+        }
+
+        .avatar_peer {
+            width: 50px;
+            position: absolute;
+            float: left;
+        }
+
+        .msg_peer {
+            position: relative;
+            float: left;
+            margin-left: 50px;
+        }
+
+        .avatar_self {
+            width: 50px;
+            position: absolute;
+            right: 0;
+        }
+        .msg_self {
+            float: right;
+            margin-right: 50px;
+        }
+
+        .msg_join{
+            margin-bottom: 25px;
+        }
+
+        small {
+            color:rgba(51, 48, 48, 0.53);
+            background-color: rgba(206, 212, 214, 0.81);
+            border-radius: 3px;
+            margin-left: 0px;
+            padding: 0px 5px;
+        }
+
+        .t_right {
+            float: right;
+        }
+
+        .msg_bk_color {
+            background-color: rgba(228, 223, 219, 0.55);
+        }
+
+        .msg_self_text {
+            background: #B0CEBA;
+            border: 1px solid #919482;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            padding: 5px 8px;
+            float: right
+        }
+
+        .msg_peer_text {
+            background: #FFF;
+            border: 1px solid #919482;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            padding: 5px 8px;
+        }
+
+        .am-radius2{
+            border-radius: 64px;
+        }
+
+        .avatar_list {
+            border-radius: 64px;
+            display: inline-block;
+            padding: 2px;
+            line-height:1.6;
+            transition: all .2s ease-in-out;
+        }
+
+        .my_search {
+            border-radius: 12px;
+            height: 35px;
+            box-shadow:none;
+            border:none;
+            font-family:'Hiragino Sans GB','Microsoft YaHei';
+        }
+
+        li {
+            display: inline-block;
+            padding: 0 5px 0 5px;
+        }
+
+        .plat_href {
+            color: #343434;
+        }
+
+        .picked .plat_href {
+            color: #fff;
+        }
+
+        #footer{
+            bottom:0;
+            left:0;
+            width: 100%;
+        }
+        
+        .split {
+            width:1px;
+            height:17px;
+            margin:0 12px;
+            background: #b3b3b3;
+            border-left: 1px solid #f5f5f5;
+        }
+
+        .footer-link {
+            text-align: center;
+            margin-top: 10px;
+        }
+
+        .name_color{
+            color: #000;
+        }
+
+        .user_left {
+            width:20%;
+            padding: 0;
+            float: left;
+            position: relative;
+        }
+
+        .user_right {
+            width:80%;
+            padding: 0 1rem 0 1rem;
+            float: left;
+            position: relative;
+        }
+
+        .picked {
+            background-color: #ff946e;
+            border-radius: 15px;
+            color: #fff !important;
+        }
     </style>
 </head>
-<body style="background-color: #F0EFF4;">
+<body style="background-color: #F0EFF4;padding-bottom:0px">
     <div id="container" class="am-container" style="padding: 0px;">
 
     <!-- page_main start -->
     <div id="page_main" style="">
-        <header name="header" data-am-widget="header" class="am-header am-header-default">
-            <div class="am-header-left am-header-nav">
-                <a href="/" class="">
-                    <i class="am-header-icon am-icon-home"></i>
-                </a>
+        <header name="header" data-am-widget="header" class="am-header am-header-default" style="background-color:rgba(0, 0, 0, 0.59)">
+            <div class="am-g">
+                <div class="am-u-sm-2">
+                    <i class="am-header-icon am-icon-bars" style="font-size:30px;color:#fff"></i>
+                </div>
+                <div class="am-u-sm-8" style="padding-top: 7px">
+                    <form id="formSearch" action="/search">
+                    <div class="am-form-group am-form-icon">
+                        <input id="searchInput" type="search" class="am-form-field my_search" placeholder="找人 找服务">
+                        <span class="am-icon-search"></span>
+                    </div>
+                    </form>
+                </div>
+                <div class="am-u-sm-2">
+                    <a href="/personal" class="front_link am-header-icon am-icon-user" style="color:#fff;font-size: 30px;float: right"></a>
+                </div>
             </div>
-            <h1 class="am-header-title">就找我</h1>
         </header>
 
         <div id="list_msg" style="-webkit-font-smoothing: subpixel-antialiased; -moz-osx-font-smoothing: auto; display: none; margin: 10px 10px;color: #A8A8A8;">
@@ -91,24 +240,46 @@
             <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
         </div>
 
+        <div id="indus_panel" style='background-color: #E3E3EA;' class='userBack'>
+            <p style="margin:0 0 5px 15px;"><i class="am-icon-fire" style="margin-right:10px;color:#D22020;font-weight:bold;font-size: 90%"></i>行业分类</p>
+            <ul style="font-size: 80%;line-height:26px;padding-left:15px;margin: 8px 0 8px 0">
+                <li id="yxtg"><a href="/page/0?industry=营销推广" class="plat_href" >营销推广</a></li>
+                <li id="wzkf"><a href="/page/0?industry=网站开发" class="plat_href" >网站开发</a></li>
+                <li id="tstz"><a href="/page/0?industry=天使投资" class="plat_href" >天使投资</a></li>
+                <li id="qzzp"><a href="/page/0?industry=招聘求职" class="plat_href" >招聘求职</a></li>
+                <li id="tzlc"><a href="/page/0?industry=投资理财" class="plat_href" >投资理财</a></li>
+                <li id="mgsj"><a href="/page/0?industry=美工设计" class="plat_href" >美工设计</a></li>
+                <li id="px"><a href="/page/0?industry=培训" class="plat_href" >培训</a></li>
+                <li id="qt"><a href="/page/0?industry=其他" class="plat_href" >其他</a></li>
+            </ul>
+        </div>
+
         <!-- user list -->
         <div id="user_list">
             {{#userList.users}}
             <div id='{{uid}}' class="userBack">
-                <div class='am-g am-intro-bd' style='background-color: white;'>
-                    <div class='am-intro-left am-u-sm-3'>
+                <div class='am-g am-intro-bd' style='background-color: white;padding: 10px 0 10px 0'>
+                    <div class='am-intro-left user_left'>
                         <a href='/specialist/{{uid}}' class='front_link'>
-                            <img class='am-radius am-img-thumbnail'   src='{{avatar}}' alt='小娜' width='120px' height='120px'/>
+                            <img class='avatar_list'   src='{{avatar}}' alt='头像' width='64px' height='64px'/>
                         </a>
+                        <div style="padding: 5px 0px 0px 12px" class="name_color">
+                        {{name}}
+                        </div>
                     </div>
-                    <div class='am-intro-right am-u-sm-9'>
+                    <div class='am-intro-right user_right'>
                        <p style='margin: 0px;'>
-                           <strong style='margin-right: 10px;'>{{name}}</strong>
-                           <strong>{{specialist}}</strong>
+                           <strong style="color: #f37b1d">{{city_short}} . {{company}} . {{position}}</strong>
                         </p>
                        <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
                     </div>
-                    <div class='am-intro-right am-u-sm-9'>{{shortIntro}}</div>
+                    <div class='am-intro-right user_right'>
+                        <p style='margin: 0.5rem 0 0 0;color: #5eb95e'>
+                            服务：{{service}}</p>
+                        <p style='margin: 0.5rem 0 0 0;font-size: 90%'>
+                            简介：{{shortIntro}}
+                        </p>
+                    </div>
                 </div>
             </div>
             {{/userList.users}}
@@ -116,23 +287,31 @@
         
        <div id="user_list_template" style="display:none">
             {#users}
-            <div id='{uid}' class="userBack">
-                <div class='am-g am-intro-bd' style='background-color: white;'>
-                    <div class='am-intro-left am-u-sm-3'>
-                        <a href='/specialist/{uid}' class='front_link'>
-                            <img class='am-radius am-img-thumbnail' img_url_xxx alt='小娜' width='120px' height='120px'/>
-                        </a>
-                    </div>
-                    <div class='am-intro-right am-u-sm-9'>
-                       <p style='margin: 0px;'>
-                           <strong style='margin-right: 10px;'>{name}</strong>
-                           <strong>{specialist}</strong>
-                        </p>
-                       <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
-                    </div>
-                    <div class='am-intro-right am-u-sm-9'>{shortIntro}</div>
-                </div>
-            </div>
+               <div id='{uid}' class="userBack">
+                   <div class='am-g am-intro-bd' style='background-color: white;padding: 10px 0 10px 0'>
+                       <div class='am-intro-left user_left'>
+                           <a href='/specialist/{uid}' class='front_link'>
+                               <img class='avatar_list'   img_url_xxx alt='头像' width='64px' height='64px'/>
+                           </a>
+                           <div style="padding: 5px 0px 0px 12px" class="name_color">
+                               {name}
+                           </div>
+                       </div>
+                       <div class='am-intro-right user_right'>
+                           <p style='margin: 0px;'>
+                               <strong style="color: #f37b1d">{city_short} . {company} . {position}</strong>
+                           </p>
+                           <hr data-am-widget='divider' style='margin: 5px 0px;' class='am-divider am-divider-default' />
+                       </div>
+                       <div class='am-intro-right user_right'>
+                           <p style='margin: 0.5rem 0 0 0;color: #5eb95e'>
+                               服务：{service}</p>
+                           <p style='margin: 0.5rem 0 0 0;font-size: 90%'>
+                               简介：{shortIntro}
+                           </p>
+                       </div>
+                   </div>
+               </div>
             {/users}
         </div>
         
@@ -146,38 +325,73 @@
             </li>
         </ul>
 
-        <!-- navbar start -->
-        <div data-am-widget="navbar" class="am-navbar am-cf am-navbar-default" id=""
-             style=" background-color: white;    border-top: 1px solid #CCCCCC;padding-top: 5px;padding-bottom: 5px;">
-            <div class="am-u-sm-8" style="padding-left: 0px;padding-right: 0px;">
-                <div class="am-g">
-                    <div class="am-u-lg-6" style="padding-left: 5px;">
-                        <form id="formSearch" action="/search">
-                        <input id="searchInput" type="search" class="am-form-field am-round">
-                        </form>
-                        <!--<div class="am-input-group">
-                            <input type="search" class="am-form-field am-round">
-                            <span class="am-input-group-btn" style="line-height:39px">
-                                <button class="am-btn am-btn-default am-round" type="button" onclick="search()"><span  class="am-icon-search"></span></button>
-                            </span>
-                        </div>-->
-                    </div>
-                </div>
+        <div style="background-color: #333;margin-left: auto;margin-right: auto" id="footer" >
+            <div class="footer-link" style="padding-top: 30px">
+                <a href="/" style="color: #ddd">首页</a>
+                <span class="split"></span>
+                <a href="#" style="color: #ddd">关于我们</a>
+                <span class="split"></span>
+                <a href="#" style="color: #ddd">联系我们</a>
             </div>
-            <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="/advsearch" class="front_link am-icon-btn am-icon-search-plus" style="width: 39px;height: 39px;line-height: 39px;"></a>
-            </div>
-            <div class="am-u-sm-2" style="line-height:37px;padding: 0px;">
-                <a href="/personal" class="front_link am-icon-btn am-icon-user" style="width: 39px;height: 39px;line-height: 39px;"></a>
-            </div>
+            <p class="footer-info" style="color:#666;text-align: center;font-size:80%;margin:0;padding: 10px 0 10px 0">©2015&nbsp;就找我 京ICP备09043258号-9</p>
         </div>
     </div>
     <!-- page_main end -->
 
     <!-- page_msg start -->
     <div id="page_msg" style="display:none">
-        <img src="http://static.9zhaowo.com/img/msg.jpg" width="100%"/><img>
 
+        <div id="msg_container">
+        </div>
+
+        <div id="msg_template_container" style="display:none">
+            <article class="am-comment " id="msg_template">
+            {#each msgs}
+            <div class="am-comment-main comment-margin">
+                <header class="am-comment-hd">
+                    <div class="am-comment-meta">
+                        <a href="#link-to-user" class="am-comment-author">{peer_name}</a>
+                    </div>
+                </header>
+
+                <div class="am-comment-bd msg_bk_color">
+                    {#each content}
+                    {#if inMsg}
+                    <div class="am-g msg_join">
+                        <div><small>{time}</small></div>
+                        <div class="avatar_peer">
+                            <img class='am-radius ' peer_avatar_src alt='头像' width='40px' height='40px'/>
+                        </div>
+                        <div class="msg_peer">
+                            <div class="msg_peer_text">{msg}</div>
+                        </div>
+                    </div>
+                    {else}
+                    <div class="am-g msg_join" >
+                        <div><small>{time}</small></div>
+                        <div class="msg_self"><div class="msg_self_text">{msg}</div></div>
+                        <div class="avatar_self"><img class='am-radius ' self_avatar_src alt='头像' width='40px' height='40px'/></div>
+                    </div>
+                    {/if}
+                    {/each}
+
+                <div class="am-input-group">
+                    <input type="text" class="am-form-field" id="msg_res">
+                      <span class="am-input-group-btn">
+                        <button class="am-btn am-btn-default" type="button" id="bt_msg_res" onclick="msg_send({uid},{peer_uid})">回复</button>
+                      </span>
+                </div>
+                </div>
+            </div>
+            {/each}
+        </article>
+        </div>
+
+        <div id="be_spec" class="am-g" style="display: none;margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div style="margin: 0 auto">
+                <a href="#">更多</a>
+            </div>
+        </div>
         <div class="bottomNav">
             <a href="/page_user" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
@@ -188,32 +402,54 @@
     <div id="page_edit" style="display:none">
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">姓名</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.name}}</div>
+            <div class="am-u-sm-3" style="padding-left:20px;width: 74%">
+                <input   id="edit_name" style="background-color:transparent;border:0px;width:100%;line-height: 28px;margin:-10px" value="{{user.info.name}}" placeholder="点击 输入姓名">
+            </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">手机号</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.mobile}} <i>(他人不可见)</i></div>
+            <div class="am-u-sm-3" style="padding-left:20px;width: 74%">
+                <input   id="edit_phone" style="background-color:transparent;border:0px;width:100%;line-height: 28px;margin:-10px" value="{{user.info.mobile}}" placeholder="点击 输入号码">
+            </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">地区</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.city}}</div>
+            <div class="am-u-sm-3" style="padding-left:20px;width: 74%">{{user.info.city}}</div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div class="am-u-sm-3" style="padding-left:20px">行业</div>
+            <div class="am-u-sm-3" style="padding-left:20px;width: 74%">
+                <input   id="edit_industry" style="background-color:transparent;border:0px;width:100%;line-height: 28px;margin:-10px" value="{{user.info.industry}}" placeholder="点击 输入领域">
+            </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">标签</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.tag}}</div>
+            <div class="am-u-sm-3" style="padding-left:20px;width: 74%">
+                <input   id="edit_tag" style="background-color:transparent;border:0px;width:100%;line-height: 28px;margin:-10px" value="{{user.info.tag}}" placeholder="点击 输入标签">
+            </div>
         </div>
 
         <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
             <div class="am-u-sm-3" style="padding-left:20px">简介</div>
-            <div class="am-u-sm-9" style="padding-left:20px">{{user.info.introduce}}</div>
+            <div class="am-u-sm-3" style="padding-left:20px;width: 74%">
+                <textarea  id='edit_intro' style="background-color:transparent;border:0px;width:100%;line-height: 28px;margin:-10px" rows='5'  placeholder="点击 输入简介" >{{user.info.introduce}}</textarea>
+            </div>
+        </div>
+
+        <div class="am-g" style="    background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div style="padding-left:0 20px">
+                <button id="editCommit" type="button" class="am-btn am-btn-secondary am-btn-block am-disabled" onclick="commit_edit">提交修改</button>
+            </div>
         </div>
 
         <div class="bottomNav">
             <a href="/page_user" class="back_link"><i class="am-icon-angle-left am-icon-md" style="padding-left:20px"></i></a>
         </div>
+
     </div>
     <!-- page_edit end -->
 
@@ -245,6 +481,12 @@
             <a href="/specialist/{{user.info.uid}}" class="front_link">
                 <div style="padding-left:20px">个人主页</div>
             </a>
+        </div>
+
+        <div id="be_spec" class="am-g" style="display: none;background-color: white;    margin-top: 2px;    padding-top: 10px;    padding-bottom: 10px;">
+            <div style="padding-left:0 20px">
+                <button id="editCommit" type="button" class="am-btn am-btn-secondary am-btn-block" onclick="commit_edit">申请成为行家</button>
+            </div>
         </div>
 
         <div class="bottomNav">
@@ -291,7 +533,7 @@
             </div>
 
             <div class="am-g am-intro-bd" style="background-color: white;">
-                <div class="am-intro-left am-u-sm-5"><img class="am-radius am-img-thumbnail" img_url_xxx alt="小娜" width="120px" height="120px"/></div>
+                <div class="am-intro-left am-u-sm-5"><img class="am-radius am-img-thumbnail" img_url_xxx alt="头像" width="120px" height="120px"/></div>
                 <div class="am-intro-right am-u-sm-7">
                     <p>{name}</p>
                     <p>地区: {city}</p>
@@ -312,8 +554,13 @@
                 <div class="am-u-sm-9" style="padding-left:20px">{introduce}</div>
             </div>
 
-            <div class="am-g infoLine">
-                <img src="http://static.9zhaowo.com/img/lv_msg.jpg" width="100%"/><img>
+            <div class="am-g " id="leave_msg" style="margin-top: 30px;margin-left: 3px">
+                <div>
+                    <textarea  id='leave_msg_sp' style="border:0px;width:100%;line-height: 28px;" rows='2'  placeholder="给他留消息" ></textarea>
+                </div>
+                <div style="margin-top: 0px">
+                    <button id="editCommit" type="button" class="am-btn am-btn-secondary" style="float: right" onclick="send_msg_sp()">发送</button>
+                </div>
             </div>
         </div>
 
@@ -322,7 +569,6 @@
         </div>
     </div> 
      <!-- page_specialist end -->
-
 </div>
 
 <!--[if (gte IE 9)|!(IE)]><!-->
@@ -342,17 +588,34 @@
 <script type="text/javascript">
     var pageUsers = [];
     var showDiv = {};
+    var isEditChange = false;
 
     var showUsrID = '';
     var thisUser = {{{user.self}}};
     
     var template_userlist;
     var template_specialist;
+    var template_msg;
 
     var lastPage = {{userList.lastPage}};
     var pageCur = 0;
 
+
     var shortIntroLen = 60;
+
+    var isMsgLoad = false;
+    var msgCurPage = 0;
+
+    var IndustryToId = {
+        '营销推广': 'yxtg',
+        '网站开发': 'wzkf',
+        '天使投资': 'tstz',
+        '招聘求职': 'qzzp',
+        '投资理财': 'tzlc',
+        '美工设计': 'mgsj',
+        '培训': 'px',
+        '其他': 'qt'
+    };
 
     var pathCur = '/';
     var pathDev = {
@@ -591,6 +854,9 @@
         var newTag = '{' + '{';
         var mewTag2 = '}' + '}';
         var newTag3 = 'src=\"{' + '{avatar}' + '}\"';
+        var newTag4 = 'src=\"{' + '{../../peer_avatar}' + '}\"';
+        var newTag5 = 'src=\"{' + '{../../avatar}' + '}\"';
+
         var source = $("#user_list_template").html();
         source = source.replace(/{/g, newTag);
         source = source.replace(/}/g, mewTag2);
@@ -602,6 +868,16 @@
         source = source.replace(/}/g, mewTag2);
         source = source.replace(/img_url_xxx/, newTag3);
         template_specialist = Handlebars.compile(source);
+
+        source = $("#msg_template_container").html();
+        source = source.replace(/{/g, newTag);
+        source = source.replace(/}/g, mewTag2);
+        source = source.replace(/peer_avatar_src=\"\"/g, 'peer_avatar_src');
+        source = source.replace(/self_avatar_src=\"\"/g, 'self_avatar_src');
+
+        source = source.replace(/peer_avatar_src/g, newTag4);
+        source = source.replace(/self_avatar_src/g, newTag5);
+        template_msg = Handlebars.compile(source);
     }
 
     function changePage(path){
@@ -641,6 +917,12 @@
             return;
         }
 
+        if(did == "page_personal" && !thisUser.uid){
+            var url = encodeURIComponent('http://9zhaowo.com/user/wx_oauth');
+            location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx45de252db48d8d3d&redirect_uri=" + url + "&response_type=code&scope=snsapi_userinfo&state=loginx#wechat_redirect";
+            return;
+        }
+
         if(did == 'page_specialist'){
             var uid = getUidFromPath(path);
             if(!uid){
@@ -650,10 +932,24 @@
             updateSpecailistPage(uid);
         }
 
+        if(did == 'page_msg' && !isMsgLoad){
+            load_msg();
+        }
+
         showDiv.hide();
         showDiv = $("#" + did);
         showDiv.show();
         history.pushState({did: did, path: path}, null, path);
+
+        if(did == 'page_specialist'){
+            var uid = getUidFromLocation();
+            if(uid == thisUser.uid){
+                $("#leave_msg").hide();
+            }
+            else{
+                $("#leave_msg").show();
+            }
+        }
 
         return false;
     }
@@ -766,7 +1062,129 @@
         changePage(path);
     }
 
+    function onEditChange(){
+        $("#editCommit").removeClass("am-disabled");
+    }
+
+    function commit_edit(){
+        var name = $("#edit_name").val().trim();
+        var phone = $("#edit_phone").val().trim();
+        var tag = $("#edit_tag").val().trim();
+        var intro = $("#edit_intro").val().trim();
+        var industry = $("#edit_industry").val().trim();
+
+        $.ajax({
+            type: 'POST',
+            url: '/user/update_personal',
+            data: {name: name, phone: phone, tag: tag, intro: intro, industry: industry},
+            dataType: 'json',
+            success: function(jsData){
+                if(!jsData || jsData.err){
+                    alert('更新失败');
+                    return;
+                }
+                $("#editCommit").addClass("am-disabled");
+            }
+        });
+    }
+
+    function load_msg(pageid){
+        var page = 0;
+        if(pageid){
+            page = pageid;
+        }
+        $.ajax({
+            type: 'GET',
+            url: '/msg/list/' + page,
+            dataType: 'json',
+            success: function(jsData){
+                if(!jsData || jsData.err){
+                    alert('更新失败');
+                    return;
+                }
+                var msg_cont = $("#msg_container").empty();
+                var htmlAll = template_msg(jsData.msg);
+                msg_cont.append(htmlAll);
+
+                $(window).scrollTop(0);
+            }
+        });
+    }
+
+    function msg_send(from, to){
+        var msg = $("#msg_res").val().trim();
+        if(msg.length < 1){
+            return;
+        }
+        if(msg.length > 256){
+            alert('消息长度不能大于128');
+            return;
+        }
+
+        $.ajax({
+            type: 'GET',
+            url: '/msg/post',
+            data: {content: msg, from: from, to: to},
+            dataType: 'json',
+            success: function(jsData){
+                if(!jsData || jsData.err){
+                    alert('发送失败');
+                    return;
+                }
+                load_msg(msgCurPage);
+            }
+        });
+    }
+
+    function getUidFromLocation(){
+        var str = location.href;
+        var arr = str.split('/');
+        var uid = arr.pop();
+        return uid;
+    }
+
+    function send_msg_sp(){
+        var msg = $("#leave_msg_sp").val().trim();
+        if(msg.length < 1){
+            return;
+        }
+        if(msg.length > 256){
+            alert('消息长度不能大于128');
+            return;
+        }
+
+        var to = getUidFromLocation();
+        var from = thisUser.uid;
+        $.ajax({
+            type: 'GET',
+            url: '/msg/post',
+            data: {content: msg, from: from, to: to},
+            dataType: 'json',
+            success: function(jsData){
+                if(!jsData || jsData.err){
+                    alert('发送失败');
+                    return;
+                }
+                load_msg(msgCurPage);
+            }
+        });
+    }
+
+    function updateIndustry(){
+        console.log(location);
+        var path = parsePath(location.href);
+        if(path.param && path.param['industry']){
+            var industry = decodeURI(path.param['industry']);
+            var id = IndustryToId[industry];
+            if(id){
+                $("#" + id).addClass('picked');
+            }
+        }
+    }
+
     $(document).ready(function () {
+        updateIndustry();
+
         //获取第一页数据
         updateFirtPage();
 
@@ -782,10 +1200,26 @@
         $("#formSearch").submit(onSearch);
         $("#advSearch").click(advSearch);
 
+
+
+        //
+        $("#edit_name").change(onEditChange);
+        $("#edit_phone").change(onEditChange);
+        $("#edit_tag").change(onEditChange);
+        $("#edit_intro").change(onEditChange);
+        $("#edit_industry").change(onEditChange);
+
+        $("#editCommit").click(commit_edit);
+
+        if (thisUser.type != 8) {
+            $("#be_spec").show();
+        }
+
         //监控前进、后退事件
         $(window).on('popstate', onPopState);
 
         //编译模板
         init_template();
     });
+
 </script>

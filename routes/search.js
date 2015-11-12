@@ -69,4 +69,6 @@ router.get('/', function(req, res, next){
     });
 });
 
-module.exports = router;
+module.exports = {};
+module.exports.search = router;
+module.exports.jieba = jieba;

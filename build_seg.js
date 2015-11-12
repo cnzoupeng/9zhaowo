@@ -38,34 +38,44 @@ pool.getConnection(function(errc, conn){
     });
 });
 
+function getSeg(str){
+	var full = jieba.cut(str, 'FULL');
+	var mix = jieba.cut(str, 'MIX');
+	var out = [];
+	var map = [];
+	for(var i in full){
+		if(!full[i] || full[i].length < 2 || map[full[i]]){
+			continue;
+		}
+		map[full[i]] = true;
+		out.push(full[i]);
+	}
+	for(var i in mix){
+		if(!mix[i] || mix[i].length < 2 || map[mix[i]]){
+			continue;
+		}
+		map[mix[i]] = true;
+		out.push(mix[i]);
+	}
+	return out;
+}
+
+
 function update_seg(arr){
     if(arr.length == 0){
         return console.log("done");
+		process.exit(0);
     }
 
     var user = arr.pop();
+	var str_core = user.name + " " + user.specialist + " " + user.tag;
+    var arr_core = getSeg(str_core);
+	var arr_intro = getSeg(user.introduce);
 
-    var seg_tag = jieba.cut(user.tag);
-    var seg_intro = jieba.cut(user.introduce);
+    var seg_core = arr_core.join(' ');
+    var seg_intro = arr_intro.join(' ');
 
-    var arr_tag = [];
-    for(var i in seg_tag){
-        if(seg_tag[i].length > 1){
-            arr_tag.push(seg_tag[i]);
-        }
-    }
-
-    var arr_intro = [];
-    for(var i in seg_intro){
-        if(seg_intro[i].length > 1){
-            arr_intro.push(seg_intro[i]);
-        }
-    }
-
-    seg_tag = arr_tag.join(' ');
-    seg_intro = arr_intro.join(' ');
-
-    var sql = "update users set seg_tag=\"" + seg_tag + "\",seg_intro=\"" + seg_intro +"\"  where uid=" + user.uid;
+    var sql = "update users set seg_core=\"" + seg_core + "\",seg_intro=\"" + seg_intro +"\"  where uid=" + user.uid;
     console.log(sql);
 
     pool.getConnection(function(errc, conn) {
